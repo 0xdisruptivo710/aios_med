@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aios Saúde | CRM & IA para Clínicas e Consultórios</title>
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        medical: {
+                            400: '#10b981', // Emerald text/accents
+                            500: '#059669',
+                            glow: 'rgba(16, 185, 129, 0.4)',
+                        },
+                        brand: {
+                            purple: '#8b5cf6',
+                            glow: 'rgba(139,92,246,0.4)',
+                        }
+                    },
+                    boxShadow: {
+                        'glow-brand': '0 0 40px var(--tw-shadow-color)',
+                        'glow-med': '0 0 20px var(--tw-shadow-color)',
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'brand-gradient': 'linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%)',
+                        'accent-gradient': 'linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            overflow-x: hidden;
+            font-feature-settings: "ss01", "cv01", "cv02";
+        }
+
+        /* 40px Grid Pattern */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        }
+
+        /* Ambient Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float-orb 20s ease-in-out infinite alternate;
+        }
+        .orb-brand { background: radial-gradient(circle, #8b5cf6 0%, #ec4899 100%); }
+        .orb-med { background: radial-gradient(circle, #10b981 0%, #06b6d4 100%); opacity: 0.25; }
+
+        @keyframes float-orb {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 50px) scale(1.1); }
+            100% { transform: translate(-30px, 80px) scale(0.9); }
+        }
+
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .text-gradient-med {
+            background: linear-gradient(135deg, #34d399 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Premium Glass Cards */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 20px 40px -15px rgba(0,0,0,0.5);
+        }
+
+        /* Glowing Border Outline Card */
+        .glow-border-card {
+            position: relative;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: inherit;
+        }
+        .glow-border-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(99,102,241,0.5) 0%, rgba(168,85,247,0.5) 50%, rgba(236,72,153,0.5) 100%);
+            z-index: -1;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 1px;
+        }
+
+        /* Marquee */
+        .marquee-container {
+            display: flex;
+            overflow: hidden;
+            user-select: none;
+            gap: 1.5rem;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .marquee-content {
+            display: flex;
+            flex-shrink: 0;
+            gap: 1.5rem;
+            animation: scroll 40s linear infinite;
+        }
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-50% - 0.75rem)); }
+        }
+
+        /* Animations */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--smooth), transform 0.8s var(--smooth);
+            transition-delay: calc(var(--index, 0) * 100ms);
+        }
+        .reveal-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes pulse-dot {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        .dot-active {
+            animation: pulse-dot 2s infinite;
+        }
+
+        /* Beams */
+        .beam-line {
+            stroke-dasharray: 10 15;
+            animation: dash-flow 2s linear infinite;
+        }
+        @keyframes dash-flow {
+            to { stroke-dashoffset: -25; }
+        }
+
+        /* Orbit */
+        .orbit-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .orbit-item {
+            position: absolute;
+            top: 50%; left: 50%;
+            animation: rotate-orbit 20s linear infinite;
+            transform-origin: 0 0;
+        }
+        .orbit-icon {
+            animation: counter-rotate 20s linear infinite;
+        }
+        @keyframes rotate-orbit {
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes counter-rotate {
+            100% { transform: rotate(-360deg); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Global Grid Background -->
+    <div class="fixed inset-0 pointer-events-none bg-grid-pattern z-[-2]"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-white/5 transition-all duration-300 h-20 flex items-center">
+        <div class="max-w-[1400px] mx-auto px-6 w-full flex items-center justify-between">
+            <div class="flex items-center gap-2 group cursor-pointer">
+                <span class="text-2xl font-extrabold tracking-tighter text-white flex items-center gap-1">
+                    Aios<span class="text-teal-400 group-hover:rotate-90 transition-transform duration-500"><i class="ph-fill ph-plus-circle"></i></span>
+                </span>
+                <div class="h-4 w-px bg-white/20 mx-2 hidden md:block"></div>
+                <span class="text-sm font-medium text-slate-400 hidden md:block">Saúde & Clínicas</span>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#solucao" class="hover:text-white transition-colors">Solução</a>
+                <a href="#crm" class="hover:text-white transition-colors">CRM Clínico</a>
+                <a href="#ecossistema" class="hover:text-white transition-colors">Integrações</a>
+                <a href="#planos" class="hover:text-white transition-colors">Planos</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="#" class="hidden lg:block text-sm font-medium text-slate-300 hover:text-white transition-colors">Entrar</a>
+                <button class="relative group bg-white text-slate-950 font-bold px-6 py-2.5 rounded-full text-sm overflow-hidden transition-transform hover:scale-[0.98] active:scale-[0.95]">
+                    <div class="absolute inset-0 bg-brand-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <span class="relative z-10 group-hover:text-white transition-colors duration-300">Agendar Demo</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[100dvh] pt-32 pb-20 flex items-center overflow-hidden">
+        <!-- Ambient Backgrounds -->
+        <div class="orb orb-brand w-[600px] h-[600px] top-[-10%] left-[-10%]"></div>
+        <div class="orb orb-med w-[500px] h-[500px] top-[40%] right-[-5%] mix-blend-screen"></div>
+
+        <div class="max-w-[1400px] mx-auto px-6 w-full grid lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Left Copy -->
+            <div class="z-10 flex flex-col items-start pt-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal-500/30 bg-teal-500/10 mb-6 reveal-up" style="--index: 0;">
+                    <div class="w-2 h-2 rounded-full bg-teal-400 dot-active"></div>
+                    <span class="text-xs font-bold text-teal-400 tracking-wide uppercase">IA Atendendo Agora</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tighter leading-[1.05] mb-6 reveal-up" style="--index: 1;">
+                    Sua clínica vendendo <br>
+                    <span class="text-gradient">24/7 com IA.</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-xl leading-relaxed reveal-up" style="--index: 2;">
+                    O único CRM médico no Brasil com uma Agente Autônoma que agenda, qualifica, reverte orçamentos e zera o no-show da sua agenda de forma invisível.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-16 reveal-up" style="--index: 3;">
+                    <button class="bg-brand-gradient text-white font-bold px-8 py-4 rounded-full shadow-glow-brand shadow-brand-glow hover:shadow-[0_0_60px_rgba(139,92,246,0.6)] transition-all hover:-translate-y-1 active:translate-y-0 text-lg flex items-center justify-center gap-2">
+                        Implantar na minha Clínica <i class="ph-bold ph-arrow-right"></i>
+                    </button>
+                    <button class="glass-panel text-white font-semibold px-8 py-4 rounded-full hover:bg-white/5 transition-colors text-lg flex items-center justify-center gap-2">
+                        Ver Integrações <i class="ph ph-plugs-connected"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-3 gap-8 border-t border-white/10 pt-8 w-full max-w-lg mb-8 lg:mb-0 reveal-up" style="--index: 4;">
+                    <div>
+                        <div class="text-3xl font-black text-white">-68%</div>
+                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wide mt-1">Queda de No-Show</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-black text-white">+3x</div>
+                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wide mt-1">Agendamentos</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-black text-gradient-med">&lt;1min</div>
+                        <div class="text-xs font-medium text-slate-500 uppercase tracking-wide mt-1">Tempo de Resposta</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Visual Stack -->
+            <div class="relative lg:h-[600px] w-full reveal-up" style="--index: 2;">
+                <!-- Main Chat Mockup -->
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 w-full max-w-[420px] rounded-[2.5rem] p-1 glow-border-card shadow-2xl z-20">
+                    <div class="bg-slate-900 rounded-[2.3rem] overflow-hidden flex flex-col h-[500px]">
+                        <!-- Chat Header -->
+                        <div class="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-brand-gradient flex items-center justify-center">
+                                    <i class="ph-fill ph-robot text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-sm text-white">Assistente Aios</div>
+                                    <div class="text-xs text-teal-400 font-medium flex items-center gap-1">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-teal-400 dot-active"></div> Online
+                                    </div>
+                                </div>
+                            </div>
+                            <i class="ph ph-whatsapp-logo text-2xl text-slate-500"></i>
+                        </div>
+                        
+                        <!-- Chat Body -->
+                        <div class="flex-1 p-5 flex flex-col gap-4 overflow-hidden relative">
+                            <!-- Date divider -->
+                            <div class="text-center text-[10px] text-slate-500 font-medium uppercase tracking-widest mt-2">Hoje</div>
+                            
+                            <!-- Patient Msg -->
+                            <div class="bg-slate-800 self-end text-sm px-4 py-3 rounded-2xl rounded-tr-sm max-w-[85%] text-slate-200">
+                                Olá! Queria saber o valor da aplicação de toxina botulínica e se tem horário para amanhã.
+                            </div>
+                            
+                            <!-- AI Msg (Animated in JS) -->
+                            <div class="relative max-w-[90%] self-start flex gap-2">
+                                <div class="absolute -left-2 -top-2 w-full h-full bg-brand-gradient opacity-10 blur-xl rounded-full"></div>
+                                <div class="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-purple-500/30 px-4 py-3 rounded-2xl rounded-tl-sm text-sm text-white relative z-10 shadow-lg backdrop-blur-sm">
+                                    Olá, Mariana! Tudo bem? O valor da aplicação completa (3 terços) é R$ 1.800,00. Temos um horário com a Dra. Júlia amanhã às 14:30. Posso reservar para você? ✨
+                                </div>
+                            </div>
+
+                             <!-- Patient Msg -->
+                             <div class="bg-slate-800 self-end text-sm px-4 py-3 rounded-2xl rounded-tr-sm max-w-[85%] text-slate-200 mt-2 opacity-0 animate-[fadeIn_0.5s_ease_3s_forwards]">
+                                Pode sim! Particular, por favor.
+                            </div>
+
+                             <!-- AI Success Msg -->
+                             <div class="relative max-w-[90%] self-start flex gap-2 mt-2 opacity-0 animate-[fadeIn_0.5s_ease_4s_forwards]">
+                                <div class="bg-teal-500/10 border border-teal-500/30 px-4 py-3 rounded-2xl rounded-tl-sm text-sm text-white relative z-10 shadow-lg backdrop-blur-sm flex items-start gap-2">
+                                    <i class="ph-fill ph-check-circle text-teal-400 mt-0.5 text-lg"></i>
+                                    <div>
+                                        Perfeito! Horário reservado.<br>
+                                        <b class="text-teal-400">Amanhã, 14:30 - Dra. Júlia (Botox)</b><br>
+                                        Te enviei as orientações prévias.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Typing Input Mock -->
+                        <div class="px-5 py-4 border-t border-white/5 bg-slate-900/80">
+                            <div class="bg-slate-800 rounded-full h-10 w-full flex items-center px-4">
+                                <span class="text-slate-500 text-sm">Digite uma mensagem...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Elements -->
+                <div class="absolute z-30 left-[-40px] top-[15%] glass-panel p-4 rounded-2xl shadow-2xl border border-white/10 flex items-center gap-4 animate-[float-orb_12s_ease-in-out_infinite_alternate]" style="animation-duration: 15s;">
+                    <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center border border-white/5">
+                        <i class="ph-duotone ph-calendar-check text-purple-400 text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-400 font-medium">Lembrete Disparado</div>
+                        <div class="text-sm font-bold text-white">Confirmação em Massa</div>
+                        <div class="text-xs text-teal-400 mt-1 flex items-center gap-1"><i class="ph-bold ph-arrow-up-right"></i> +42 Respondidos</div>
+                    </div>
+                </div>
+
+                <div class="absolute z-30 left-[20px] bottom-[10%] glass-panel p-4 rounded-2xl shadow-2xl border border-white/10 w-[240px] animate-[float-orb_14s_ease-in-out_infinite_alternate_reverse]">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="text-xs font-bold text-white uppercase tracking-wider">Novo Paciente</div>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 dot-active"></span>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-800/50 p-2 rounded-lg border border-white/5">
+                        <div class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-bold">M</div>
+                        <div>
+                            <div class="text-sm font-bold text-white">Mariana S.</div>
+                            <div class="text-xs text-slate-400">Dermatologia</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-xs bg-emerald-500/10 text-emerald-400 rounded p-2 text-center border border-emerald-500/20 font-semibold">
+                        Agendado via WhatsApp
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Segments -->
+    <section class="py-10 border-y border-white/5 bg-slate-950/50 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 mb-6">
+            <p class="text-sm font-semibold text-slate-400 uppercase tracking-widest text-center">IA calibrada para o ecossistema médico</p>
+        </div>
+        <div class="marquee-container w-full">
+            <div class="marquee-content h-12">
+                <!-- Double content for infinite loop trick -->
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-tooth text-teal-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Odontologia</span></div>
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-bandaids text-purple-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Dermatologia & Estética</span></div>
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-heartbeat text-pink-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Cardiologia</span></div>
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-eye text-indigo-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Oftalmologia</span></div>
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-brain text-emerald-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Psiquiatria</span></div>
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-bone text-cyan-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Ortopedia</span></div>
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-apple-logo text-green-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Nutrição</span></div>
+                <!-- Repeat -->
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-tooth text-teal-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Odontologia</span></div>
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-bandaids text-purple-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Dermatologia & Estética</span></div>
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-heartbeat text-pink-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Cardiologia</span></div>
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-eye text-indigo-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Oftalmologia</span></div>
+                <div class="flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full border border-white/5"><i class="ph-duotone ph-brain text-emerald-400 text-lg"></i><span class="text-sm font-bold text-slate-200">Psiquiatria</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Agent Architecture Section -->
+    <section id="solucao" class="py-32 relative">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="grid lg:grid-cols-[1fr_1.2fr] gap-20 items-center">
+                
+                <div class="reveal-up">
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
+                        Ela aprende seus <span class="text-gradient">protocolos</span> em minutos.
+                    </h2>
+                    <p class="text-lg text-slate-400 mb-8 leading-relaxed">
+                        Esqueça chatbots engessados de "Digite 1 para Agendar". A Aios absorve seu PDF de convênios, lista de procedimentos e FAQs, e negocia de forma humanizada como sua melhor secretária.
+                    </p>
+                    
+                    <ul class="space-y-6">
+                        <li class="flex items-start gap-4">
+                            <div class="mt-1 w-8 h-8 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0">
+                                <i class="ph-bold ph-read-cv-logo text-purple-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold mb-1">Base de Conhecimento Clínica</h4>
+                                <p class="text-sm text-slate-400 leading-relaxed">Faça upload da tabela TUSS, preços particulares e orientações pré-operatórias.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="mt-1 w-8 h-8 rounded-full bg-teal-500/10 border border-teal-500/30 flex items-center justify-center shrink-0">
+                                <i class="ph-bold ph-shield-check text-teal-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold mb-1">Qualificação de Convênio</h4>
+                                <p class="text-sm text-slate-400 leading-relaxed">A IA verifica automaticamente se o paciente cobre carência médica e solicita carteirinha.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="mt-1 w-8 h-8 rounded-full bg-pink-500/10 border border-pink-500/30 flex items-center justify-center shrink-0">
+                                <i class="ph-bold ph-calendar-plus text-pink-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold mb-1">Conexão 2-Way Calendar</h4>
+                                <p class="text-sm text-slate-400 leading-relaxed">Lê tempos de sala, bloqueios de almoço do doutor e reserva diretamente no sistema.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Diagnostic/Flow Mockup -->
+                <div class="relative min-h-[500px] bg-slate-900/30 border border-white/5 rounded-3xl p-8 reveal-up flex flex-col justify-center overflow-hidden">
+                    <!-- Background ambient -->
+                    <div class="absolute inset-0 bg-brand-gradient opacity-[0.02]"></div>
+                    
+                    <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 h-full">
+                        
+                        <!-- Block 1: Knowledge -->
+                        <div class="glass-panel p-5 rounded-2xl w-full md:w-48 text-center shrink-0 border-slate-700 relative z-20">
+                            <i class="ph-duotone ph-files text-4xl text-slate-300 mb-3 block"></i>
+                            <div class="text-sm font-bold text-white mb-2">Seus Dados</div>
+                            <div class="space-y-2">
+                                <div class="h-6 bg-slate-800 rounded flex items-center justify-center text-[10px] text-slate-400 font-medium">Tabela Preços.pdf</div>
+                                <div class="h-6 bg-slate-800 rounded flex items-center justify-center text-[10px] text-slate-400 font-medium">Regras Convênio.txt</div>
+                                <div class="h-6 bg-slate-800 rounded flex items-center justify-center text-[10px] text-slate-400 font-medium">FAQ Clínica.docx</div>
+                            </div>
+                        </div>
+
+                        <!-- Animated SVG Beams Connector -->
+                        <div class="hidden md:block absolute left-[12rem] right-[12rem] top-1/2 -translate-y-1/2 h-20 z-10">
+                            <svg width="100%" height="100%" preserveAspectRatio="none">
+                                <path d="M 0,40 Q 50,0 100,40 T 200,40" fill="none" stroke="rgba(139,92,246,0.2)" stroke-width="2" />
+                                <path d="M 0,40 Q 50,0 100,40 T 200,40" fill="none" stroke="url(#gradientMain)" stroke-width="2" class="beam-line" />
+                                <defs>
+                                    <linearGradient id="gradientMain">
+                                        <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0" />
+                                        <stop offset="50%" stop-color="#ec4899" stop-opacity="1" />
+                                        <stop offset="100%" stop-color="#6366f1" stop-opacity="0" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+
+                        <!-- Block 2: AI Core -->
+                        <div class="glow-border-card p-[1px] rounded-2xl w-full md:w-56 shrink-0 relative z-20">
+                            <div class="bg-slate-950 rounded-2xl p-6 text-center h-full">
+                                <div class="w-16 h-16 mx-auto bg-brand-gradient rounded-full p-0.5 shadow-glow-brand mb-4">
+                                    <div class="w-full h-full bg-slate-900 rounded-full flex items-center justify-center">
+                                        <i class="ph-fill ph-brain text-2xl text-purple-400"></i>
+                                    </div>
+                                </div>
+                                <div class="text-lg font-black text-white mb-1 tracking-tight">Motar IA</div>
+                                <div class="text-xs text-brand-purple font-bold tracking-widest uppercase mb-4">Processando Contexto</div>
+                                
+                                <div class="space-y-3 text-left">
+                                    <div class="flex items-center gap-2 text-xs text-slate-300">
+                                        <i class="ph-fill ph-check-circle text-teal-400"></i> Analisando Intenção
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-slate-300">
+                                        <i class="ph-fill ph-check-circle text-teal-400"></i> Extraindo Especialidade
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-slate-300">
+                                        <i class="ph-duotone ph-spinner-gap animate-spin text-purple-400"></i> Buscando Horário
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Automatic Kanban CRM -->
+    <section id="crm" class="py-24 border-t border-white/5 bg-[#010410] relative">
+        <div class="max-w-[1400px] mx-auto px-6 mb-12 flex justify-between items-end reveal-up">
+            <div>
+                <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-white">
+                    O funil de pacientes no <br><span class="text-gradient">piloto automático.</span>
+                </h2>
+                <p class="text-slate-400 text-lg max-w-xl">
+                    Cada interação no WhatsApp move o card automaticamente. Visão geral da operação, sem depender que a secretária atualize planilhas.
+                </p>
+            </div>
+            <div class="hidden lg:flex items-center gap-3">
+                <span class="text-sm font-bold text-slate-500">Integração Nativa:</span>
+                <i class="ph ph-whatsapp-logo text-green-500 text-2xl"></i>
+                <i class="ph ph-instagram-logo text-pink-500 text-2xl"></i>
+            </div>
+        </div>
+
+        <!-- Horizontal Scrollable Kanban Container -->
+        <div class="pl-6 md:pl-[calc((100vw-1400px)/2+1.5rem)] pb-8 overflow-x-auto no-scrollbar relative reveal-up" style="--index: 1;">
+            <div class="flex gap-6 w-max pr-6">
+                
+                <!-- Column 1 -->
+                <div class="w-[320px] flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                        <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full bg-slate-500"></div> Novo Contato
+                        </h4>
+                        <span class="text-xs bg-white/10 text-white px-2 py-0.5 rounded font-bold">12</span>
+                    </div>
+                    <!-- Cards -->
+                    <div class="glass-panel p-4 rounded-xl cursor-default hover:border-white/20 transition-colors">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-indigo-500/20 text-indigo-300">Instagram Ads</span>
+                            <span class="text-xs text-slate-500">10m atrás</span>
+                        </div>
+                        <h5 class="font-bold text-white mb-1">Carlos Eduardo</h5>
+                        <p class="text-xs text-slate-400 mb-3">Dúvida sobre valor de implante.</p>
+                        <div class="flex items-center gap-2 text-xs text-brand-purple font-medium bg-brand-purple/10 w-fit px-2 py-1 rounded border border-brand-purple/20">
+                            <i class="ph-fill ph-robot"></i> IA respondendo...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="w-[320px] flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                        <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full bg-purple-500"></div> Qualificando
+                        </h4>
+                        <span class="text-xs bg-white/10 text-white px-2 py-0.5 rounded font-bold">8</span>
+                    </div>
+                    <!-- Cards -->
+                    <div class="glass-panel p-4 rounded-xl">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-teal-500/20 text-teal-300">WhatsApp</span>
+                        </div>
+                        <h5 class="font-bold text-white mb-1">Amanda Silva</h5>
+                        <p class="text-xs text-slate-400 mb-3">Aguardando envio foto carteirinha Unimed.</p>
+                    </div>
+                    <div class="glass-panel p-4 rounded-xl">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-teal-500/20 text-teal-300">WhatsApp</span>
+                        </div>
+                        <h5 class="font-bold text-white mb-1">Roberto Ferreira</h5>
+                        <p class="text-xs text-slate-400 mb-3">Enviou pedido médico. IA sugeriu Cardiologia.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
+                            <img src="https://ui-avatars.com/api/?name=Dr+C&background=334155&color=fff" alt="Médico" class="w-5 h-5 rounded-full">
+                            <span class="text-[10px] text-slate-500 uppercase tracking-wide">Aguardando Escolha Horário</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3 (Highlight) -->
+                <div class="w-[320px] flex flex-col gap-4 bg-slate-900/20 rounded-2xl p-2 -m-2 border border-blue-500/10">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2 px-2">
+                        <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full bg-teal-400 dot-active"></div> Agendado
+                        </h4>
+                        <span class="text-xs bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded font-bold">45</span>
+                    </div>
+                    <!-- Cards -->
+                    <div class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 p-4 rounded-xl relative overflow-hidden group">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-teal-500"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-bold text-teal-400">Hoje, 14:30</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Confirmado IA</span>
+                        </div>
+                        <h5 class="font-bold text-white mb-1">Mariana S.</h5>
+                        <div class="text-xs text-slate-400 flex items-center gap-1 mb-2"><i class="ph ph-stethoscope"></i> Dra. Júlia - Botox</div>
+                        <div class="text-[10px] bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700 truncate">Particular (Sinal Pago: R$ 200,00)</div>
+                    </div>
+                     <div class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 p-4 rounded-xl relative overflow-hidden group">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-teal-500"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-bold text-teal-400">Sexta, 09:00</span>
+                        </div>
+                        <h5 class="font-bold text-white mb-1">Luciano Costa</h5>
+                        <div class="text-xs text-slate-400 flex items-center gap-1 mb-2"><i class="ph ph-stethoscope"></i> Dr. Pedro - Retorno Op.</div>
+                        <div class="text-[10px] bg-slate-800 px-2 py-1 rounded text-slate-300 border border-slate-700 truncate">Bradesco Saúde</div>
+                    </div>
+                </div>
+
+                <!-- Column 4 -->
+                <div class="w-[320px] flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                        <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full bg-pink-500"></div> Recall / Fidelização
+                        </h4>
+                    </div>
+                    <!-- Cards -->
+                    <div class="glass-panel p-4 rounded-xl opacity-70">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-xs font-semibold px-2 py-1 rounded bg-pink-500/20 text-pink-300"><i class="ph ph-clock-counter-clockwise"></i> Há 6 meses</span>
+                        </div>
+                        <h5 class="font-bold text-white mb-1">Fernanda Lima</h5>
+                        <p class="text-[10px] text-slate-400 mb-3">Tempo ideal para retoque de toxina botulínica atingido.</p>
+                        <button class="w-full bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white py-1.5 rounded transition-colors text-center border border-slate-600">
+                            IA: Disparar Convite
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Dashboard -->
+    <section class="py-32 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4"><span class="text-gradient">Inteligência</span> em cada métrica.</h2>
+                <p class="text-lg text-slate-400">Dashboards clínicos avançados. Saiba exatamente onde está o gargalo da sua receita.</p>
+            </div>
+
+            <!-- Bento Grid Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[220px]">
+                
+                <!-- B1: No Show (Large Metric) -->
+                <div class="glass-panel rounded-3xl p-6 lg:col-span-2 flex flex-col justify-between relative overflow-hidden group hover:border-slate-600 transition-colors reveal-up" style="--index: 0;">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-teal-500/10 blur-3xl rounded-full"></div>
+                    <div>
+                        <div class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Taxa de No-Show Mensal</div>
+                        <div class="flex items-center gap-3">
+                            <div class="text-6xl font-black text-white">4.2%</div>
+                            <div class="flex items-center gap-1 text-teal-400 bg-teal-500/10 px-2 py-1 rounded text-xs font-bold border border-teal-500/20">
+                                <i class="ph-bold ph-trend-down"></i> -12.4%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h-20 w-full flex items-end gap-2 mt-4">
+                        <!-- Simulated Bar Chart -->
+                        <div class="flex-1 bg-slate-800 rounded-t-sm h-[60%]"></div>
+                        <div class="flex-1 bg-slate-800 rounded-t-sm h-[75%]"></div>
+                        <div class="flex-1 bg-slate-800 rounded-t-sm h-[65%]"></div>
+                        <div class="flex-1 bg-slate-800 rounded-t-sm h-[40%]"></div>
+                        <div class="flex-1 bg-teal-500/30 border-t border-teal-400 rounded-t-sm h-[15%] relative group-hover:h-[10%] transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- B2: AI Interactions -->
+                <div class="glass-panel rounded-3xl p-6 flex flex-col justify-between reveal-up" style="--index: 1;">
+                    <div>
+                        <div class="w-10 h-10 bg-brand-gradient rounded-xl mb-4 flex items-center justify-center text-white"><i class="ph-bold ph-chats-circle text-xl"></i></div>
+                        <div class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Atendimentos IA</div>
+                        <div class="text-4xl font-black text-white">1,482</div>
+                    </div>
+                    <div class="text-xs text-slate-400 border-t border-white/5 pt-3">
+                        <span class="text-white font-bold">89%</span> resolvidos sem intervenção humana.
+                    </div>
+                </div>
+
+                 <!-- B3: Revenue Pie (Visual) -->
+                <div class="glass-panel rounded-3xl p-6 flex flex-col items-center justify-center gap-4 reveal-up" style="--index: 2;">
+                    <div class="relative w-28 h-28">
+                        <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
+                            <!-- Background Circle -->
+                            <path class="text-slate-800" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4"></path>
+                            <!-- Foreground Circles (Simulated Segments) -->
+                            <path class="text-purple-500" stroke-dasharray="60, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4"></path>
+                            <path class="text-teal-400" stroke-dasharray="25, 100" stroke-dashoffset="-60" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4"></path>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center flex-col">
+                            <span class="text-xs text-slate-400 font-medium">Part.</span>
+                            <span class="text-sm font-bold text-white">60%</span>
+                        </div>
+                    </div>
+                    <div class="text-sm font-bold text-slate-400 uppercase tracking-widest text-center">Mix de Receita</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ecosystem Orbits -->
+    <section id="ecossistema" class="py-32 relative overflow-hidden bg-slate-950/80 border-y border-white/5">
+        <div class="max-w-[1400px] mx-auto px-6 text-center relative z-20 mb-20 reveal-up">
+            <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Seu software atual, <span class="text-gradient">turbinado.</span></h2>
+            <p class="text-lg text-slate-400">A Aios não substitui seu ERP. Ela conversa com ele.<br>Sincronização bidirecional em tempo real.</p>
+        </div>
+
+        <div class="relative w-full h-[600px] flex items-center justify-center reveal-up">
+            
+            <!-- Orbit Rings -->
+            <div class="orbit-ring w-[280px] h-[280px] border-white/10"></div>
+            <div class="orbit-ring w-[440px] h-[440px] border-white/5 border-dashed"></div>
+            <div class="orbit-ring w-[600px] h-[600px] border-white/[0.02]"></div>
+
+            <!-- Central Core -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-brand-gradient rounded-full flex items-center justify-center z-30 shadow-glow-brand">
+                <span class="text-white font-black tracking-tighter text-3xl">Aios</span>
+            </div>
+
+            <!-- Orbit Items (Inner Ring) -->
+            <div class="orbit-ring w-[280px] h-[280px] border-none z-20">
+                <div class="orbit-item w-full h-full">
+                    <div class="orbit-icon absolute -top-6 left-1/2 -ml-6 w-12 h-12 bg-slate-900 border border-white/10 rounded-full flex items-center justify-center shadow-xl">
+                        <i class="ph-fill ph-whatsapp-logo text-green-500 text-2xl"></i>
+                    </div>
+                </div>
+                <div class="orbit-item w-full h-full" style="animation-delay: -10s;">
+                    <div class="orbit-icon absolute -bottom-6 left-1/2 -ml-6 w-12 h-12 bg-slate-900 border border-white/10 rounded-full flex items-center justify-center shadow-xl">
+                        <i class="ph-fill ph-google-logo text-white text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orbit Items (Middle Ring) -->
+            <div class="orbit-ring w-[440px] h-[440px] border-none z-20" style="animation-direction: reverse;">
+                <!-- Simulating external software logos with generic medical/tech icons to avoid bad SVGs -->
+                <div class="orbit-item w-full h-full" style="animation-duration: 30s;">
+                    <div class="orbit-icon absolute -top-7 left-1/2 -ml-7 w-14 h-14 bg-slate-800 border border-slate-600 rounded-2xl flex items-center justify-center shadow-xl content-center text-xs font-bold text-blue-400">
+                        iClinic
+                    </div>
+                </div>
+                <div class="orbit-item w-full h-full" style="animation-duration: 30s; animation-delay: -10s;">
+                    <div class="orbit-icon absolute -bottom-7 right-1/4 -ml-7 w-14 h-14 bg-slate-800 border border-slate-600 rounded-2xl flex items-center justify-center shadow-xl content-center text-[10px] font-bold text-teal-400">
+                        Doctoralia
+                    </div>
+                </div>
+                <div class="orbit-item w-full h-full" style="animation-duration: 30s; animation-delay: -20s;">
+                    <div class="orbit-icon absolute top-1/2 -left-7 -mt-7 w-14 h-14 bg-slate-800 border border-slate-600 rounded-2xl flex items-center justify-center shadow-xl content-center">
+                        <i class="ph-fill ph-instagram-logo text-pink-500 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gradient overlay for fade out at edges -->
+            <div class="absolute inset-0 bg-radial-gradient from-transparent to-[#020617] pointer-events-none" style="background: radial-gradient(circle, transparent 40%, #020617 75%);"></div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="planos" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="text-4xl font-extrabold tracking-tight mb-4">Escala clínica. <span class="text-gradient">Custo previsível.</span></h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Tier 1 -->
+                <div class="glass-panel p-8 rounded-3xl border-transparent hover:border-white/10 transition-colors reveal-up" style="--index: 0;">
+                    <div class="text-slate-400 font-bold mb-2">Consultório Solo</div>
+                    <div class="text-3xl font-black text-white mb-6">R$ 497<span class="text-sm font-medium text-slate-500 font-sans">/mês</span></div>
+                    <ul class="space-y-4 text-sm text-slate-300 mb-8 border-t border-white/5 pt-6">
+                        <li class="flex items-center gap-3"><i class="ph-bold ph-check text-slate-500"></i> 1 Profissional de Saúde</li>
+                        <li class="flex items-center gap-3"><i class="ph-bold ph-check text-slate-500"></i> Agente IA 24/7 (WhatsApp)</li>
+                        <li class="flex items-center gap-3"><i class="ph-bold ph-check text-slate-500"></i> 500 interações/mês</li>
+                        <li class="flex items-center gap-3 text-slate-500"><i class="ph-bold ph-x"></i> Sem API ERP Externa</li>
+                    </ul>
+                    <button class="w-full py-3 rounded-full border border-white/10 text-white font-bold hover:bg-white/5 transition-colors">Assinar Solo</button>
+                </div>
+
+                <!-- Tier 2 (Highlight) -->
+                <div class="glow-border-card p-[1px] rounded-3xl reveal-up" style="--index: 1; transform: scale(1.05);">
+                    <div class="bg-slate-900 rounded-3xl p-8 h-full relative overflow-hidden">
+                        <div class="absolute top-0 inset-x-0 h-1 bg-brand-gradient"></div>
+                        <div class="absolute top-4 right-4 bg-brand-purple/20 text-brand-purple text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider border border-brand-purple/30">Mais Popular</div>
+                        
+                        <div class="text-white font-bold mb-2">Clínica (Time)</div>
+                        <div class="text-4xl font-black text-white mb-6">R$ 1.290<span class="text-sm font-medium text-slate-500 font-sans">/mês</span></div>
+                        <ul class="space-y-4 text-sm text-slate-200 mb-8 border-t border-white/10 pt-6">
+                            <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-teal-400"></i> Até 5 Médicos/Agendas</li>
+                            <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-teal-400"></i> CRM Kanban Completo</li>
+                            <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-teal-400"></i> Interações IA Ilimitadas</li>
+                            <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-teal-400"></i> Integração Calendário</li>
+                        </ul>
+                        <button class="w-full py-4 rounded-full bg-brand-gradient text-white font-bold shadow-glow-brand transition-transform hover:-translate-y-1">Testar Grátis por 7 dias</button>
+                    </div>
+                </div>
+
+                <!-- Tier 3 -->
+                <div class="glass-panel p-8 rounded-3xl border-transparent hover:border-white/10 transition-colors reveal-up" style="--index: 2;">
+                    <div class="text-slate-400 font-bold mb-2">Rede / Multi-unidade</div>
+                    <div class="text-3xl font-black text-white mb-6">Sob Medida</div>
+                    <ul class="space-y-4 text-sm text-slate-300 mb-8 border-t border-white/5 pt-6">
+                        <li class="flex items-center gap-3"><i class="ph-bold ph-check text-slate-500"></i> Múltiplos CNPJs</li>
+                        <li class="flex items-center gap-3"><i class="ph-bold ph-check text-slate-500"></i> API Aberta Direta</li>
+                        <li class="flex items-center gap-3"><i class="ph-bold ph-check text-slate-500"></i> SLA de Atendimento Premium</li>
+                        <li class="flex items-center gap-3"><i class="ph-bold ph-check text-slate-500"></i> Treinamento IA Customizado</li>
+                    </ul>
+                    <button class="w-full py-3 rounded-full border border-white/10 text-white font-bold hover:bg-white/5 transition-colors">Falar com Vendas</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Band -->
+    <section class="py-20 border-y border-white/5 bg-slate-900/50">
+        <div class="max-w-[1400px] mx-auto px-6 grid md:grid-cols-2 gap-12 items-center reveal-up">
+            <div>
+                <i class="ph-fill ph-quotes text-5xl text-purple-500/20 mb-4 block"></i>
+                <h3 class="text-2xl md:text-3xl font-bold text-white leading-snug mb-6">
+                    "Antes da Aios, nossa secretária passava 4h por dia só confirmando consultas manualmente. Hoje, o no-show caiu para zero vírgula alguma coisa e focamos apenas no atendimento presencial."
+                </h3>
+                <div class="flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1594824436998-d50d4bb29cb5?auto=format&fit=crop&w=150&q=80" alt="Dra. Roberta - Dermatologista" class="w-12 h-12 rounded-full object-cover">
+                    <div>
+                        <div class="font-bold text-white">Dra. Roberta Almeida</div>
+                        <div class="text-xs text-slate-400">Diretora Clínica - DermaLaser</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+               <div class="glass-panel p-6 rounded-2xl flex flex-col justify-center items-center text-center">
+                   <div class="text-3xl font-black text-brand-purple mb-1">+40h</div>
+                   <div class="text-xs font-medium text-slate-400">Poupadas/mês por secretária</div>
+               </div>
+               <div class="glass-panel p-6 rounded-2xl flex flex-col justify-center items-center text-center">
+                   <div class="text-3xl font-black text-teal-400 mb-1">R$ 15k+</div>
+                   <div class="text-xs font-medium text-slate-400">Recuperados em retornos</div>
+               </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-32 relative overflow-hidden">
+        <div class="orb orb-brand w-[800px] h-[800px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 z-0"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal-up">
+            <h2 class="text-5xl md:text-7xl font-black tracking-tighter mb-8 text-white leading-none">
+                Pronto para lotar a<br>agenda no automático?
+            </h2>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8">
+                <button class="bg-brand-gradient text-white font-bold px-10 py-5 rounded-full shadow-glow-brand text-xl w-full sm:w-auto hover:-translate-y-1 transition-transform">
+                    Implantar Aios na Clínica
+                </button>
+            </div>
+            <div class="flex items-center justify-center gap-3 text-sm text-slate-400 font-medium">
+                <span class="flex items-center gap-1"><i class="ph-bold ph-check text-teal-400"></i> Setup em 48h</span>
+                <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                <span class="flex items-center gap-1"><i class="ph-bold ph-check text-teal-400"></i> Sem taxa de adesão</span>
+                <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                <span class="flex items-center gap-1"><i class="ph-bold ph-check text-teal-400"></i> Cancele quando quiser</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 pt-16 pb-8 bg-[#01030a]">
+        <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16">
+            <div class="col-span-2 lg:col-span-2">
+                <span class="text-2xl font-extrabold tracking-tighter text-white flex items-center gap-1 mb-4">
+                    Aios<span class="text-teal-400"><i class="ph-fill ph-plus-circle"></i></span>
+                </span>
+                <p class="text-slate-500 text-sm max-w-sm mb-6">
+                    A primeira plataforma de IA Conversacional projetada exclusivamente para as complexidades operacionais de clínicas e consultórios médicos no Brasil.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="ph-fill ph-instagram-logo"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="ph-fill ph-linkedin-logo"></i></a>
+                </div>
+            </div>
+            
+            <div>
+                <h5 class="text-white font-bold mb-4 text-sm">Produto</h5>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="#" class="hover:text-teal-400 transition-colors">Agente Autônomo</a></li>
+                    <li><a href="#" class="hover:text-teal-400 transition-colors">CRM Clínico</a></li>
+                    <li><a href="#" class="hover:text-teal-400 transition-colors">Integrações de ERP</a></li>
+                    <li><a href="#" class="hover:text-teal-400 transition-colors">Preços</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h5 class="text-white font-bold mb-4 text-sm">Use Cases</h5>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Dermatologia</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Odontologia</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Redes de Policlínicas</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Centros Cirúrgicos</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h5 class="text-white font-bold mb-4 text-sm">Legal & Suporte</h5>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="#" class="hover:text-white transition-colors">LGPD na Saúde</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Termos de Uso</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Central de Ajuda</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="max-w-[1400px] mx-auto px-6 border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-xs text-slate-600">© 2024 Aios Technologies. Todos os direitos reservados. CNPJ: 42.190.838/0001-92</p>
+            <div class="flex items-center gap-2 text-xs font-bold text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-teal-500 dot-active"></span> Sistemas Operacionais
+            </div>
+        </div>
+    </footer>
+
+    <!-- Vanilla JS for Micro-interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll Reveal Physics based Observer
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal-up').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Navbar Blur effect on scroll
+            const nav = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    nav.classList.add('backdrop-blur-xl', 'bg-slate-950/80');
+                    nav.classList.remove('bg-transparent');
+                } else {
+                    nav.classList.remove('backdrop-blur-xl', 'bg-slate-950/80');
+                    nav.classList.add('bg-transparent');
+                }
+            });
+            
+            // Initial trigger for top elements
+            setTimeout(() => {
+                document.querySelectorAll('.reveal-up').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if(rect.top < window.innerHeight) {
+                        el.classList.add('is-visible');
+                    }
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
