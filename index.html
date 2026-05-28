@@ -46,6 +46,9 @@
                         'aios-green-soft': 'hsl(150 50% 95%)',
                         'aios-magenta': 'hsl(348 60% 48%)',
                         'aios-magenta-soft': 'hsl(348 60% 95%)',
+                        /* Loss / error — usado apenas em contexto semântico de perda */
+                        'loss-red': 'hsl(0 65% 48%)',
+                        'loss-red-soft': 'hsl(0 65% 95%)',
                     },
                     fontFamily: {
                         display: ['Bricolage Grotesque', 'system-ui', 'sans-serif'],
@@ -552,7 +555,7 @@
                         <span class="font-mono text-[10px] uppercase tracking-widest text-background/60">03 · Time humano</span>
                         <i data-lucide="users-round" class="w-5 h-5 text-background" stroke-width="1.75"></i>
                     </div>
-                    <h3 class="text-xl text-background" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.03em;">Gestor de CRM + Time Dev + Especialistas em IA</h3>
+                    <h3 class="text-xl text-background" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.03em;">Gestor de CRM + Desenvolvimento + Especialistas em IA</h3>
                     <p class="text-[14px] text-background/75 leading-[1.55]">
                         Não é só ferramenta. Um gestor humano dedicado opera o seu CRM, nosso squad de devs codifica integrações sob medida, e especialistas em IA ajustam o agente da sua clínica continuamente.
                     </p>
@@ -836,7 +839,7 @@
                 </div>
                 <div class="lg:col-span-5">
                     <p class="text-muted text-[17px] leading-[1.6]">
-                        Você não compra uma ferramenta solta. Contrata três especialistas que operam como extensão da sua equipe &mdash; sem fricção de contratação, sem CLT, sem treinamento. Gestor de CRM, time de devs e especialistas em IA dentro da assinatura.
+                        Você não compra uma ferramenta solta. Contrata três especialistas que operam como extensão da sua equipe &mdash; sem fricção de contratação, sem CLT, sem treinamento. Gestor de CRM, Desenvolvimento e especialistas em IA dentro da assinatura.
                     </p>
                 </div>
             </div>
@@ -936,7 +939,7 @@
                     <span class="text-border">·</span>
                     <span>Gestor dedicado</span>
                     <span class="text-border">·</span>
-                    <span>Time de devs</span>
+                    <span>Desenvolvimento</span>
                     <span class="text-border">·</span>
                     <span>IA personalizada</span>
                     <span class="text-border">·</span>
@@ -1160,8 +1163,8 @@
                         </ul>
                         <!-- Subtotal cost -->
                         <div class="mt-8 pt-6 border-t border-border-strong flex items-baseline justify-between">
-                            <span class="font-mono text-[10px] uppercase tracking-widest text-muted">Custo de oportunidade · mês</span>
-                            <span class="font-display text-foreground" style="font-size: 36px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">−R$&nbsp;32.450</span>
+                            <span class="font-mono text-[10px] uppercase tracking-widest text-loss-red">Custo de oportunidade · mês</span>
+                            <span class="font-display text-loss-red" style="font-size: 36px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">−R$&nbsp;32.450</span>
                         </div>
                     </div>
 
@@ -1304,7 +1307,7 @@
                             "Já uso Feegow / iClinic / Doctoralia. Vai brigar?"
                         </h3>
                         <p class="text-[14px] text-muted leading-[1.55]">
-                            Não &mdash; integra. Tier 1 (Feegow, iClinic, Clínica nas Nuvens, Consultório Live, Clinicorp, Ninsaúde) é nativo via API aberta. Tier 2 (Memed, Doctoralia, ByDoctor, Shosp) é via parceria homologada. Se o seu sistema não tá nessa lista, nosso time dev constrói a ponte em 2 a 4 semanas.
+                            Não &mdash; integra. Tier 1 (Feegow, iClinic, Clínica nas Nuvens, Consultório Live, Clinicorp, Ninsaúde) é nativo via API aberta. Tier 2 (Memed, Doctoralia, ByDoctor, Shosp) é via parceria homologada. Se o seu sistema não tá nessa lista, nosso time de Desenvolvimento constrói a ponte em 2 a 4 semanas.
                         </p>
                     </div>
 
@@ -1342,53 +1345,15 @@
 
         <!-- SECTION 11: PLANOS -->
         <section id="planos" class="max-w-7xl mx-auto px-6 py-28 border-b border-border relative">
-            <div class="mb-16 text-center">
+            <div class="max-w-2xl mx-auto text-center">
                 <h2 class="font-sans font-semibold text-3xl md:text-4xl tracking-tight mb-4">Escolha a escala ideal.</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                <!-- Tier 1 -->
-                <div class="border border-border bg-background rounded-2xl p-8 flex flex-col">
-                    <h3 class="font-mono text-sm uppercase tracking-wider text-muted mb-2">Consultório</h3>
-                    <div class="text-3xl font-semibold mb-6 flex items-baseline gap-1">R$ 997<span class="text-base text-muted font-normal">/mês</span></div>
-                    <ul class="space-y-4 text-sm text-muted mb-8 flex-1">
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-foreground shrink-0 mt-0.5"></i> 1 Agente IA treinado</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-foreground shrink-0 mt-0.5"></i> Qualificação básica via WhatsApp</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-foreground shrink-0 mt-0.5"></i> Até 500 atendimentos / mês</li>
-                        <li class="flex items-start gap-2 text-muted/50"><i data-lucide="minus" class="w-4 h-4 shrink-0 mt-0.5"></i> Sem integração de sistema</li>
-                        <li class="flex items-start gap-2 text-muted/50"><i data-lucide="minus" class="w-4 h-4 shrink-0 mt-0.5"></i> Sem Gestor Dedicado</li>
-                    </ul>
-                    <a href="#final-cta" class="w-full h-10 border border-border text-foreground font-medium rounded-lg hover:bg-surface transition-colors flex items-center justify-center">Selecionar</a>
-                </div>
-
-                <!-- Tier 2 (Highlighted) -->
-                <div class="border border-accent bg-surface rounded-2xl p-8 flex flex-col relative transform md:-translate-y-4">
-                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-aios-magenta text-background text-[10px] uppercase font-mono tracking-widest px-3 py-1 rounded-full font-bold">Recomendado</div>
-                    <h3 class="font-mono text-sm uppercase tracking-wider text-accent mb-2">Clínica (Pro)</h3>
-                    <div class="text-3xl font-semibold mb-6 flex items-baseline gap-1">R$ 2.490<span class="text-base text-muted font-normal">/mês</span></div>
-                    <ul class="space-y-4 text-sm text-foreground mb-8 flex-1">
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-0.5"></i> Funil Kanban Automático</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-0.5"></i> <strong class="font-medium text-foreground">Integração API Aberta Tier 1</strong> (Feegow, iClinic, etc)</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-0.5"></i> <strong class="font-medium text-foreground">Gestor de CRM Dedicado</strong> (Relatórios Semanais)</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-0.5"></i> Até 2.500 atendimentos / mês</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-0.5"></i> Dashboard de ROI Atribuição</li>
-                    </ul>
-                    <a href="#final-cta" class="w-full h-10 bg-accent text-background font-medium rounded-lg hover:bg-accent-hover transition-colors flex items-center justify-center">Começar Agora</a>
-                </div>
-
-                <!-- Tier 3 -->
-                <div class="border border-border bg-background rounded-2xl p-8 flex flex-col">
-                    <h3 class="font-mono text-sm uppercase tracking-wider text-muted mb-2">Multi-Unidade</h3>
-                    <div class="text-3xl font-semibold mb-6 flex items-baseline gap-1 text-foreground">Sob Consulta</div>
-                    <ul class="space-y-4 text-sm text-muted mb-8 flex-1">
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-foreground shrink-0 mt-0.5"></i> Atendimentos Ilimitados</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-foreground shrink-0 mt-0.5"></i> Roteamento entre Multi-Unidades</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-foreground shrink-0 mt-0.5"></i> Squad de Dev Dedicado (Banco SQL proprietário)</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-foreground shrink-0 mt-0.5"></i> Múltiplos Gestores de Operação</li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-foreground shrink-0 mt-0.5"></i> SLA de 99.9% com Contrato</li>
-                    </ul>
-                    <a href="#final-cta" class="w-full h-10 border border-border text-foreground font-medium rounded-lg hover:bg-surface transition-colors flex items-center justify-center gap-2">Falar com Vendas <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
-                </div>
+                <p class="text-muted text-[17px] leading-[1.55] mb-10">
+                    Do consultório solo até a operação multi-unidade, desenhamos o plano com você no WhatsApp. Sem self-service confuso, sem letra miúda.
+                </p>
+                <a href="https://wa.me/" class="inline-flex items-center gap-2.5 h-12 px-8 bg-accent text-background font-medium rounded-lg hover:bg-accent-hover btn-press transition-colors text-base">
+                    <i data-lucide="message-circle" class="w-5 h-5" stroke-width="1.75"></i>
+                    Falar com nossa equipe no WhatsApp
+                </a>
             </div>
         </section>
 
