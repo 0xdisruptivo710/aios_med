@@ -1,1461 +1,1528 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="antialiased scroll-smooth selection:bg-accent/30 selection:text-white">
 <!--
-  AIOS Clínicas — landing
-  North Star: The Clinic Director's Desk (heavy paper, fountain pen, signed report).
-  Voice: declarative, evidence-led, never imperative.
-  System: Signature Ink (warm-black + teal-cyan) used as ink, never as paint.
-  See PRODUCT.md and DESIGN.md at project root for the full brief.
+ AIOS Clínicas, landing
+ North Star: The Clinic Director's Desk (heavy paper, fountain pen, signed report).
+ Voice: declarative, evidence-led, never imperative.
+ System: Signature Ink (warm-black + teal-cyan) used as ink, never as paint.
+ See PRODUCT.md and DESIGN.md at project root for the full brief.
 -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIOS — Inteligência Artificial para Clínicas Médicas</title>
-    
-    <!-- Typography: Bricolage Grotesque (display) + DM Sans (body) + JetBrains Mono (mono) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Icons: Lucide -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>AIOS, Inteligência Artificial para Clínicas Médicas</title>
+ 
+ <!-- Typography: Bricolage Grotesque (display) + DM Sans (body) + JetBrains Mono (mono) -->
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+ 
+ <!-- Icons: Lucide -->
+ <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Tailwind CSS Engine Engine -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        /* Light theme · The Clinic Director's Desk — warm-black on paper, Signature Ink in teal-cyan */
-                        background: 'hsl(0 0% 100%)',
-                        surface: 'hsl(240 6% 97.5%)',
-                        'surface-sec': 'hsl(240 6% 94%)',
-                        foreground: 'hsl(240 10% 6%)',
-                        muted: 'hsl(240 5% 38%)',
-                        'muted-soft': 'hsl(240 5% 55%)',
-                        border: 'hsl(240 6% 90%)',
-                        'border-strong': 'hsl(240 6% 82%)',
-                        accent: 'hsl(187 72% 36%)',
-                        'accent-hover': 'hsl(187 72% 28%)',
-                        'accent-soft': 'hsl(187 72% 95%)',
-                        'accent-deep': 'hsl(192 80% 22%)',
-                        ink: 'hsl(240 10% 6%)',
-                        /* Logo-bridge accents — usados pontualmente, nunca como paint */
-                        'aios-green': 'hsl(150 50% 38%)',
-                        'aios-green-soft': 'hsl(150 50% 95%)',
-                        'aios-magenta': 'hsl(348 60% 48%)',
-                        'aios-magenta-soft': 'hsl(348 60% 95%)',
-                        /* Loss / error — usado apenas em contexto semântico de perda */
-                        'loss-red': 'hsl(0 65% 48%)',
-                        'loss-red-soft': 'hsl(0 65% 95%)',
-                    },
-                    fontFamily: {
-                        display: ['Bricolage Grotesque', 'system-ui', 'sans-serif'],
-                        sans: ['DM Sans', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
-                    },
-                    letterSpacing: {
-                        tighter: '-0.035em',
-                        tight: '-0.02em',
-                        widest: '0.1em',
-                    },
-                    boxShadow: {
-                        'glass': '0 1px 2px 0 rgba(20, 24, 30, 0.04), 0 1px 0 0 rgba(20, 24, 30, 0.03) inset',
-                        'soft': '0 1px 2px rgba(20, 24, 30, 0.04), 0 6px 24px -10px rgba(20, 24, 30, 0.08)',
-                        'card': '0 1px 3px rgba(20, 24, 30, 0.04), 0 8px 32px -16px rgba(20, 24, 30, 0.12)',
-                        'accent-subtle': '0 0 0 1px rgba(7, 158, 187, 0.08), 0 12px 32px -12px rgba(7, 158, 187, 0.18)',
-                    },
-                    animation: {
-                        'marquee': 'marquee 40s linear infinite',
-                        'pulse-soft': 'pulse-soft 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                    },
-                    keyframes: {
-                        marquee: {
-                            '0%': { transform: 'translateX(0%)' },
-                            '100%': { transform: 'translateX(-100%)' },
-                        },
-                        'pulse-soft': {
-                            '0%, 100%': { opacity: '1' },
-                            '50%': { opacity: '0.4' },
-                        },
-                        fadeInUp: {
-                            '0%': { opacity: 0, transform: 'translateY(20px)' },
-                            '100%': { opacity: 1, transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+ <!-- Tailwind CSS Engine Engine -->
+ <script src="https://cdn.tailwindcss.com"></script>
+ <script>
+ tailwind.config = {
+ theme: {
+ extend: {
+ colors: {
+ /* Light theme · The Clinic Director's Desk, warm-black on paper, Signature Ink in teal-cyan */
+ background: 'hsl(0 0% 100%)',
+ surface: 'hsl(240 6% 97.5%)',
+ 'surface-sec': 'hsl(240 6% 94%)',
+ foreground: 'hsl(240 10% 6%)',
+ muted: 'hsl(240 5% 38%)',
+ 'muted-soft': 'hsl(240 5% 55%)',
+ border: 'hsl(240 6% 90%)',
+ 'border-strong': 'hsl(240 6% 82%)',
+ accent: 'hsl(187 72% 36%)',
+ 'accent-hover': 'hsl(187 72% 28%)',
+ 'accent-soft': 'hsl(187 72% 95%)',
+ 'accent-deep': 'hsl(192 80% 22%)',
+ ink: 'hsl(240 10% 6%)',
+ /* Logo-bridge accents, usados pontualmente, nunca como paint */
+ 'aios-green': 'hsl(150 50% 38%)',
+ 'aios-green-soft': 'hsl(150 50% 95%)',
+ 'aios-magenta': 'hsl(348 60% 48%)',
+ 'aios-magenta-soft': 'hsl(348 60% 95%)',
+ /* Loss / error, usado apenas em contexto semântico de perda */
+ 'loss-red': 'hsl(0 65% 48%)',
+ 'loss-red-soft': 'hsl(0 65% 95%)',
+ },
+ fontFamily: {
+ display: ['Bricolage Grotesque', 'system-ui', 'sans-serif'],
+ sans: ['DM Sans', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+ mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+ },
+ letterSpacing: {
+ tighter: '-0.035em',
+ tight: '-0.02em',
+ widest: '0.1em',
+ },
+ boxShadow: {
+ 'glass': '0 1px 2px 0 rgba(20, 24, 30, 0.04), 0 1px 0 0 rgba(20, 24, 30, 0.03) inset',
+ 'soft': '0 1px 2px rgba(20, 24, 30, 0.04), 0 6px 24px -10px rgba(20, 24, 30, 0.08)',
+ 'card': '0 1px 3px rgba(20, 24, 30, 0.04), 0 8px 32px -16px rgba(20, 24, 30, 0.12)',
+ 'accent-subtle': '0 0 0 1px rgba(7, 158, 187, 0.08), 0 12px 32px -12px rgba(7, 158, 187, 0.18)',
+ },
+ animation: {
+ 'marquee': 'marquee 40s linear infinite',
+ 'pulse-soft': 'pulse-soft 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+ 'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+ },
+ keyframes: {
+ marquee: {
+ '0%': { transform: 'translateX(0%)' },
+ '100%': { transform: 'translateX(-100%)' },
+ },
+ 'pulse-soft': {
+ '0%, 100%': { opacity: '1' },
+ '50%': { opacity: '0.4' },
+ },
+ fadeInUp: {
+ '0%': { opacity: 0, transform: 'translateY(20px)' },
+ '100%': { opacity: 1, transform: 'translateY(0)' },
+ }
+ }
+ }
+ }
+ }
+ </script>
 
-    <!-- PLAIN CSS — runs immediately on parse, no Tailwind dependency. Ensures dark bg + light text even before Tailwind CDN loads. -->
-    <style>
-        html, body {
-            background-color: hsl(0 0% 100%) !important;
-            color: hsl(240 10% 6%) !important;
-        }
-        body {
-            overflow-x: hidden;
-            font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-            font-size: 16px;
-            line-height: 1.55;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
-        }
-        /* Safety net: any element without an explicit text color inherits foreground (near-black) instead of browser default */
-        section, header, footer, nav, main, article, aside,
-        div, p, span, li, ul, ol, td, th, dt, dd,
-        h1, h2, h3, h4, h5, h6,
-        a, button, label, summary, figcaption {
-            color: inherit;
-        }
-        /* Display typography — Bricolage Grotesque at BOLD extreme · weight 800 + wdth 100 (expanded) */
-        h1, h2, .font-display {
-            font-family: 'Bricolage Grotesque', system-ui, sans-serif !important;
-            font-weight: 800;
-            font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800;
-            letter-spacing: -0.035em;
-            line-height: 1.02;
-        }
-        h1 {
-            font-weight: 800;
-            letter-spacing: -0.05em;
-            font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800;
-            line-height: 0.96;
-        }
-        h2 {
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800;
-            line-height: 1.0;
-        }
-        /* h3/h4 stay in DM Sans for readability at smaller sizes */
-        h3, h4 {
-            font-family: 'DM Sans', system-ui, sans-serif;
-            font-weight: 600;
-            letter-spacing: -0.015em;
-        }
-        /* Big display numbers in stats — use Bricolage bold too */
-        .num-display {
-            font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-            font-weight: 800;
-            font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800;
-            letter-spacing: -0.05em;
-            line-height: 0.9;
-        }
-        /* JetBrains Mono override (in case Tailwind config doesn't propagate) */
-        .font-mono, [class*="font-mono"] { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace !important; }
-        p { line-height: 1.6; max-width: 65ch; }
-        p.full { max-width: none; }
-        /* Tactile feedback on all primary buttons */
-        button, a[role="button"], .btn { transition: transform .15s cubic-bezier(.16,1,.3,1), background-color .2s; }
-        button:active, a[role="button"]:active, .btn:active { transform: translateY(1px); }
-    </style>
+ <!-- PLAIN CSS, runs immediately on parse, no Tailwind dependency. Ensures dark bg + light text even before Tailwind CDN loads. -->
+ <style>
+ html, body {
+ background-color: hsl(0 0% 100%) !important;
+ color: hsl(240 10% 6%) !important;
+ }
+ body {
+ overflow-x: hidden;
+ font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+ font-size: 16px;
+ line-height: 1.55;
+ -webkit-font-smoothing: antialiased;
+ -moz-osx-font-smoothing: grayscale;
+ text-rendering: optimizeLegibility;
+ }
+ /* Safety net: any element without an explicit text color inherits foreground (near-black) instead of browser default */
+ section, header, footer, nav, main, article, aside,
+ div, p, span, li, ul, ol, td, th, dt, dd,
+ h1, h2, h3, h4, h5, h6,
+ a, button, label, summary, figcaption {
+ color: inherit;
+ }
+ /* Display typography, Bricolage Grotesque at BOLD extreme · weight 800 + wdth 100 (expanded) */
+ h1, h2.font-display {
+ font-family: 'Bricolage Grotesque', system-ui, sans-serif !important;
+ font-weight: 800;
+ font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800;
+ letter-spacing: -0.035em;
+ line-height: 1.02;
+ }
+ h1 {
+ font-weight: 800;
+ letter-spacing: -0.05em;
+ font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800;
+ line-height: 0.96;
+ }
+ h2 {
+ font-weight: 800;
+ letter-spacing: -0.04em;
+ font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800;
+ line-height: 1.0;
+ }
+ /* h3/h4 stay in DM Sans for readability at smaller sizes */
+ h3, h4 {
+ font-family: 'DM Sans', system-ui, sans-serif;
+ font-weight: 600;
+ letter-spacing: -0.015em;
+ }
+ /* Big display numbers in stats, use Bricolage bold too */
+ .num-display {
+ font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+ font-weight: 800;
+ font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800;
+ letter-spacing: -0.05em;
+ line-height: 0.9;
+ }
+ /* JetBrains Mono override (in case Tailwind config doesn't propagate) */
+ .font-mono, [class*="font-mono"] { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace !important; }
+ p { line-height: 1.6; max-width: 65ch; }
+ p.full { max-width: none; }
+ /* Tactile feedback on all primary buttons */
+ button, a[role="button"].btn { transition: transform .15s cubic-bezier(.16,1,.3,1), background-color .2s; }
+ button:active, a[role="button"]:active.btn:active { transform: translateY(1px); }
+ </style>
 
-    <!-- Tailwind-processed style block — uses theme() and @apply -->
-    <style type="text/tailwindcss">
-        /* Ambient Cyan Glows — gentler for light theme */
-        .ambient-glow-top {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 900px;
-            height: 480px;
-            transform: translateX(-50%) translateY(-30%);
-            background: radial-gradient(ellipse at center, hsla(187, 92%, 60%, 0.10) 0%, hsla(187, 92%, 70%, 0.04) 35%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
+ <!-- Tailwind-processed style block, uses theme() and @apply -->
+ <style type="text/tailwindcss">
+ /* Ambient Cyan Glows, gentler for light theme */
+ .ambient-glow-top {
+ position: absolute;
+ top: 0;
+ left: 50%;
+ width: 900px;
+ height: 480px;
+ transform: translateX(-50%) translateY(-30%);
+ background: radial-gradient(ellipse at center, hsla(187, 92%, 60%, 0.10) 0%, hsla(187, 92%, 70%, 0.04) 35%, transparent 70%);
+ pointer-events: none;
+ z-index: 0;
+ }
 
-        .ambient-glow-bottom {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 1100px;
-            height: 560px;
-            transform: translateX(-50%) translateY(40%);
-            background: radial-gradient(ellipse at center, hsla(187, 92%, 60%, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
+ .ambient-glow-bottom {
+ position: absolute;
+ bottom: 0;
+ left: 50%;
+ width: 1100px;
+ height: 560px;
+ transform: translateX(-50%) translateY(40%);
+ background: radial-gradient(ellipse at center, hsla(187, 92%, 60%, 0.08) 0%, transparent 70%);
+ pointer-events: none;
+ z-index: 0;
+ }
 
-        /* 1px Structural Lines */
-        .grid-borders {
-            display: grid;
-            gap: 1px;
-            background-color: theme('colors.border');
-            border: 1px solid theme('colors.border');
-        }
-        .grid-borders > * {
-            background-color: theme('colors.background');
-        }
-        
-        .surface-borders {
-            display: grid;
-            gap: 1px;
-            background-color: theme('colors.border');
-        }
-        .surface-borders > * {
-            background-color: theme('colors.surface');
-        }
+ /* 1px Structural Lines */
+ .grid-borders {
+ display: grid;
+ gap: 1px;
+ background-color: theme('colors.border');
+ border: 1px solid theme('colors.border');
+ }
+ .grid-borders > * {
+ background-color: theme('colors.background');
+ }
+ 
+ .surface-borders {
+ display: grid;
+ gap: 1px;
+ background-color: theme('colors.border');
+ }
+ .surface-borders > * {
+ background-color: theme('colors.surface');
+ }
 
-        /* Subtle Interactions */
-        .btn-press:active {
-            transform: scale(0.98);
-        }
-        
-        .card-hover {
-            transition: border-color 0.3s ease, background-color 0.3s ease;
-        }
-        .card-hover:hover {
-            border-color: theme('colors.accent/40');
-            background-color: theme('colors.surface-sec');
-        }
+ /* Subtle Interactions */
+ .btn-press:active {
+ transform: scale(0.98);
+ }
+ 
+ .card-hover {
+ transition: border-color 0.3s ease, background-color 0.3s ease;
+ }
+ .card-hover:hover {
+ border-color: theme('colors.accent/40');
+ background-color: theme('colors.surface-sec');
+ }
 
-        /* Hide Scrollbar for Kanban/Marquee */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+ /* Hide Scrollbar for Kanban/Marquee */
+ .no-scrollbar::-webkit-scrollbar {
+ display: none;
+ }
+ .no-scrollbar {
+ -ms-overflow-style: none;
+ scrollbar-width: none;
+ }
 
-        /* Syntax Highlight overrides for terminal */
-        .token.comment { color: theme('colors.muted'); }
-        .token.keyword { color: theme('colors.accent'); }
-        .token.string { color: theme('colors.foreground'); }
-        .token.function { color: theme('colors.accent'); }
-        .token.operator { color: theme('colors.muted'); }
-    </style>
+ /* Syntax Highlight overrides for terminal */
+ .token.comment { color: theme('colors.muted'); }
+ .token.keyword { color: theme('colors.accent'); }
+ .token.string { color: theme('colors.foreground'); }
+ .token.function { color: theme('colors.accent'); }
+ .token.operator { color: theme('colors.muted'); }
+ </style>
 </head>
 <body class="relative min-h-screen selection:bg-accent/20">
 
-    <!-- Ambient Architecture Background Layers -->
-    <div class="ambient-glow-top"></div>
-    <!-- noise overlay removed for light theme (would look like static on white) -->
-
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full border-b border-border bg-background/80 backdrop-blur-md z-50">
-        <div class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-2.5">
-                <img src="aios-logo.png" alt="AIOS" class="w-7 h-7 object-contain" />
-                <span class="font-sans font-semibold tracking-tight text-lg">AIOS</span>
-            </a>
-            <div class="hidden md:flex items-center gap-6 text-sm font-mono tracking-wide text-muted">
-                <a href="#produto" class="hover:text-foreground transition-colors">Agente IA</a>
-                <a href="#crm" class="hover:text-foreground transition-colors">Gestor CRM</a>
-                <a href="#integracoes" class="hover:text-foreground transition-colors">Integrações</a>
-                <a href="#planos" class="hover:text-foreground transition-colors">Planos</a>
-            </div>
-            <div class="flex items-center gap-4">
-                <a href="/login" class="hidden text-sm font-mono text-muted hover:text-foreground transition-colors sm:block">Login</a>
-                <a href="#final-cta" class="h-8 px-4 flex items-center text-xs font-mono bg-accent text-background rounded-md btn-press hover:bg-accent-hover transition-colors">Agendar</a>
-            </div>
-        </div>
-    </nav>
-
-    <main class="relative z-10 pt-14">
-        
-        <!-- SECTION 1: HERO — asymmetric split, editorial-medical register -->
-        <section class="max-w-[1400px] mx-auto px-6 pt-24 md:pt-32 pb-20 relative animate-fade-in-up">
-
-            <!-- Asymmetric grid: 1.15fr (copy) | 1fr (mockup) at lg+, stacked at mobile -->
-            <div class="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 items-center">
-
-                <!-- LEFT: copy stack, strictly left-aligned -->
-                <div class="flex flex-col items-start text-left max-w-[640px]">
-
-                    <!-- Eyebrow -->
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-surface mb-8">
-                        <div class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-soft"></div>
-                        <span class="font-mono text-[11px] uppercase tracking-widest text-muted font-medium">94% dos brasileiros usam WhatsApp todos os dias</span>
-                    </div>
-
-                    <!-- Editorial headline · Bricolage Grotesque compressed -->
-                    <h1 class="font-display text-[44px] sm:text-5xl md:text-[56px] lg:text-[60px] text-balance text-foreground">
-                        Sua clínica atende.<br/>
-                        O Aios <em class="not-italic text-accent">agenda.</em>
-                    </h1>
-
-                    <!-- Lead -->
-                    <p class="mt-7 text-muted text-[17px] leading-[1.55] max-w-[55ch]">
-                        CRM, agente IA e gestor humano dedicado para clínicas brasileiras. O Aios responde, qualifica e agenda cada paciente que chega no seu WhatsApp, 24 horas por dia.
-                    </p>
-
-                    <!-- Actions -->
-                    <div class="mt-9 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-                        <button class="h-11 px-6 bg-accent text-white font-medium rounded-lg hover:bg-accent-hover transition-colors flex items-center justify-center gap-2">
-                            Ver a IA em ação
-                            <i data-lucide="arrow-right" class="w-4 h-4" stroke-width="2"></i>
-                        </button>
-                        <button class="h-11 px-6 bg-transparent border border-border text-foreground font-medium rounded-lg hover:border-accent hover:bg-surface transition-colors flex items-center justify-center gap-2">
-                            <i data-lucide="calendar" class="w-4 h-4 text-muted" stroke-width="2"></i>
-                            Diagnóstico gratuito
-                        </button>
-                    </div>
-
-                    <!-- Mini proof line · medical clinic count -->
-                    <div class="mt-7 flex items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-muted">
-                        <span class="flex -space-x-1.5">
-                            <span class="w-5 h-5 rounded-full bg-accent/15 border border-accent/40"></span>
-                            <span class="w-5 h-5 rounded-full bg-accent/25 border border-accent/40"></span>
-                            <span class="w-5 h-5 rounded-full bg-accent/35 border border-accent/40"></span>
-                        </span>
-                        <span>+340 clínicas operando</span>
-                    </div>
-                </div>
-
-                <!-- RIGHT: mockup with grid-breaking overflow + overlapping badges -->
-                <div class="relative lg:translate-x-4 xl:translate-x-8 lg:scale-[1.04] origin-left">
-
-                    <!-- Soft cyan ambient halo, asymmetric (right side) · calibrated to accent saturation (36%) -->
-                    <div class="absolute -inset-8 pointer-events-none" style="background: radial-gradient(ellipse 60% 60% at 70% 40%, hsla(187, 72%, 36%, 0.08) 0%, transparent 70%);"></div>
-
-                    <!-- iMac + Studio mockup · flat-by-default, paper resting on the desk -->
-                    <div class="relative">
-                        <img src="assets/screens/hero-mockup.png" alt="Plataforma Aios em operação — inbox unificado, agente IA e CRM" class="w-full h-auto block" loading="eager" />
-                    </div>
-
-                    <!-- Floating agent badge (top-left, overlapping out) -->
-                    <div class="hidden md:flex absolute -left-4 lg:-left-8 top-10 lg:top-16 items-center gap-2.5 pl-2.5 pr-4 py-2 rounded-xl bg-background border border-border shadow-card animate-fade-in-up" style="animation-delay: 380ms;">
-                        <div class="w-8 h-8 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center">
-                            <i data-lucide="bot" class="w-4 h-4 text-accent" stroke-width="1.75"></i>
-                        </div>
-                        <div>
-                            <div class="font-mono text-[9px] uppercase tracking-widest text-muted">Agente IA</div>
-                            <div class="text-[12px] font-medium text-foreground flex items-center gap-1.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-soft"></span>
-                                12 atendendo agora
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Floating agenda badge (bottom-right) -->
-                    <div class="hidden md:flex absolute -right-3 lg:-right-6 bottom-12 lg:bottom-20 items-center gap-2.5 pl-2.5 pr-4 py-2 rounded-xl bg-background border border-border shadow-card animate-fade-in-up" style="animation-delay: 540ms;">
-                        <div class="w-8 h-8 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center">
-                            <i data-lucide="calendar-check" class="w-4 h-4 text-accent" stroke-width="1.75"></i>
-                        </div>
-                        <div>
-                            <div class="font-mono text-[9px] uppercase tracking-widest text-muted">Hoje</div>
-                            <div class="text-[12px] font-medium text-foreground">+47 consultas agendadas</div>
-                        </div>
-                    </div>
-
-                    <!-- Floating metric pill (mid-right, deepest overlap) -->
-                    <div class="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 translate-x-1/3 flex-col px-4 py-3 rounded-xl bg-foreground text-background shadow-[0_20px_40px_-12px_rgba(20,24,30,0.32)] animate-fade-in-up" style="animation-delay: 700ms;">
-                        <span class="font-mono text-[9px] uppercase tracking-widest text-background/60">No-show</span>
-                        <span class="font-display text-3xl text-background mt-0.5" style="font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800; letter-spacing: -0.05em;">−68%</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stats rail · full-width hairline grid, breaking out of the split above -->
-            <div class="mt-24 lg:mt-28 grid grid-cols-1 sm:grid-cols-3 border-y border-border">
-                <div class="px-6 py-7 sm:border-r border-border">
-                    <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-2.5">Aumento em agendamentos</div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="font-display text-5xl text-foreground" style="font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800; letter-spacing: -0.06em;">+40%</span>
-                        <span class="font-mono text-[11px] text-muted">primeiros 90 dias</span>
-                    </div>
-                </div>
-                <div class="px-6 py-7 sm:border-r border-border border-t sm:border-t-0">
-                    <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-2.5">Redução de no-show</div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="font-display text-5xl text-foreground" style="font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800; letter-spacing: -0.06em;">−68%</span>
-                        <span class="font-mono text-[11px] text-muted">lembretes ativos</span>
-                    </div>
-                </div>
-                <div class="px-6 py-7 border-t sm:border-t-0">
-                    <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-2.5">Atendimento ativo</div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="font-display text-5xl text-foreground" style="font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800; letter-spacing: -0.06em;">24/7</span>
-                        <span class="font-mono text-[11px] text-muted">sem feriado</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 2: SEGMENTS BAND (Marquee) -->
-        <section class="border-y border-border bg-surface overflow-hidden py-4 flex items-center">
-            <div class="flex whitespace-nowrap animate-marquee">
-                <!-- Group 1 -->
-                <div class="flex items-center gap-8 px-4 font-mono text-sm tracking-widest text-muted/60 uppercase">
-                    <span>Dermatologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Odontologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Estética Avançada</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Oftalmologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Pediatria</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Cardiologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Psiquiatria</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Fisioterapia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Ortopedia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Ginecologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                </div>
-                <!-- Duplicate for seamless loop -->
-                <div class="flex items-center gap-8 px-4 font-mono text-sm tracking-widest text-muted/60 uppercase">
-                    <span>Dermatologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Odontologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Estética Avançada</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Oftalmologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Pediatria</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Cardiologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Psiquiatria</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Fisioterapia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Ortopedia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                    <span>Ginecologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 2.5: AGITAÇÃO — PAS pain block with hard numbers -->
-        <section class="border-b border-border bg-surface relative overflow-hidden">
-            <div class="max-w-[1400px] mx-auto px-6 py-24 md:py-28">
-
-                <!-- Header asymmetric -->
-                <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
-                    <div class="lg:col-span-7">
-                        <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-background text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
-                            <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
-                            A real é amarga
-                        </span>
-                        <h2 class="text-4xl md:text-5xl lg:text-[64px] text-foreground leading-[0.96]">
-                            Cada paciente que some<br/>
-                            no WhatsApp <span class="text-accent">já comprou</span><br/>
-                            de alguém.
-                        </h2>
-                    </div>
-                    <div class="lg:col-span-5">
-                        <p class="text-muted text-[17px] leading-[1.6]">
-                            Não é falta de paciente. É falta de resposta. Enquanto sua recepção liga, agenda, lembra, atende presencial e ainda tenta voltar pro WhatsApp, três outras clínicas já fecharam a consulta que era sua.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 3 pain stats — full-width hairline grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 border-y border-border bg-background">
-                    <!-- Pain 1: Response time -->
-                    <div class="p-8 md:p-10 md:border-r border-border relative">
-                        <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-4">Velocidade · 01</div>
-                        <div class="font-display text-foreground mb-4" style="font-size: 56px; line-height: 0.96; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">
-                            60<span class="text-accent">%</span>
-                        </div>
-                        <p class="text-[15px] text-foreground leading-[1.5] mb-3 font-medium">
-                            Uma hora de demora no WhatsApp e o paciente já escolheu o concorrente.
-                        </p>
-                        <p class="text-[13px] text-muted leading-[1.55]">
-                            Lead frio depois de 60 minutos tem 60% menos chance de fechar &mdash; sua recepção atende em quanto tempo, hoje?
-                        </p>
-                    </div>
-
-                    <!-- Pain 2: Money left on the table -->
-                    <div class="p-8 md:p-10 md:border-r border-border border-t md:border-t-0 relative">
-                        <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-4">Receita · 02</div>
-                        <div class="font-display text-foreground mb-4" style="font-size: 56px; line-height: 0.96; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">
-                            R$&nbsp;32.450
-                        </div>
-                        <p class="text-[15px] text-foreground leading-[1.5] mb-3 font-medium">
-                            Em média por mês, deixados na mesa por lead frio.
-                        </p>
-                        <p class="text-[13px] text-muted leading-[1.55]">
-                            Cálculo simples: ticket médio R$ 1.840 × 17,6 leads perdidos / mês na clínica brasileira média de 1 a 3 médicos.
-                        </p>
-                    </div>
-
-                    <!-- Pain 3: Weekend dead zone -->
-                    <div class="p-8 md:p-10 border-t md:border-t-0 relative">
-                        <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-4">Cobertura · 03</div>
-                        <div class="font-display text-foreground mb-4" style="font-size: 56px; line-height: 0.96; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">
-                            14<span class="text-accent">%</span>
-                        </div>
-                        <p class="text-[15px] text-foreground leading-[1.5] mb-3 font-medium">
-                            Das mensagens de sábado e domingo são respondidas.
-                        </p>
-                        <p class="text-[13px] text-muted leading-[1.55]">
-                            E é justamente fim de semana que o paciente pesquisa preço, agenda particular, fecha estética. Sua secretária dorme. O concorrente, não.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Tagline transition -->
-                <div class="mt-12 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
-                    <span class="font-mono text-[10px] uppercase tracking-widest text-muted shrink-0">A boa notícia</span>
-                    <div class="flex-1 h-px bg-border"></div>
-                    <p class="text-[17px] md:text-xl text-foreground font-medium leading-[1.4]" style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-variation-settings: 'wdth' 100, 'wght' 700; letter-spacing: -0.02em;">
-                        Tudo isso vira problema de software &mdash; e a gente resolve software.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 3: O AIOS É 3 EM 1 (overview / clarity) -->
-        <section class="max-w-[1400px] mx-auto px-6 py-24 md:py-28 border-b border-border">
-            <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end mb-14">
-                <div class="lg:col-span-7">
-                    <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-surface text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
-                        <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
-                        O que é o Aios
-                    </span>
-                    <h2 class="text-4xl md:text-5xl lg:text-[64px] text-foreground leading-[0.96]">
-                        Três produtos<br/>
-                        em uma operação só.
-                    </h2>
-                </div>
-                <div class="lg:col-span-5">
-                    <p class="text-muted text-[17px] leading-[1.6]">
-                        A maioria das clínicas usa um sistema pra agenda, outro pra WhatsApp, outro pra anúncios, e ainda tenta amarrar tudo com uma secretária sobrecarregada. O Aios entrega o conjunto inteiro &mdash; software, IA e gente &mdash; trabalhando junto.
-                    </p>
-                </div>
-            </div>
-
-            <!-- 3 columns with progressive depth -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 border border-border rounded-2xl overflow-hidden bg-surface">
-
-                <!-- Card 1: CRM -->
-                <div class="p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-border bg-background flex flex-col gap-5">
-                    <div class="flex items-center justify-between">
-                        <span class="font-mono text-[10px] uppercase tracking-widest text-muted">01 · Software</span>
-                        <i data-lucide="database" class="w-5 h-5 text-foreground" stroke-width="1.75"></i>
-                    </div>
-                    <h3 class="text-xl text-foreground" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.03em;">CRM com Kanban Automático</h3>
-                    <p class="text-[14px] text-muted leading-[1.55]">
-                        Inbox unificado, funil que se mexe sozinho, segmentação por etiqueta, campanhas via API Oficial WhatsApp, mensagens agendadas e rápidas. O sistema operacional da sua clínica.
-                    </p>
-                    <ul class="mt-auto space-y-1.5 font-mono text-[11px] text-muted">
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>WhatsApp · agenda · CRM</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Dashboard em tempo real</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Atribuição Meta + Google</li>
-                    </ul>
-                </div>
-
-                <!-- Card 2: AI -->
-                <div class="p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-border bg-background flex flex-col gap-5">
-                    <div class="flex items-center justify-between">
-                        <span class="font-mono text-[10px] uppercase tracking-widest text-muted">02 · IA</span>
-                        <i data-lucide="bot" class="w-5 h-5 text-foreground" stroke-width="1.75"></i>
-                    </div>
-                    <h3 class="text-xl text-foreground" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.03em;">Agente IA personalizado</h3>
-                    <p class="text-[14px] text-muted leading-[1.55]">
-                        Treinado com seus protocolos, procedimentos, convênios e tabela de preços. Responde em segundos, qualifica o paciente, agenda na sua agenda e devolve para humano quando precisa.
-                    </p>
-                    <ul class="mt-auto space-y-1.5 font-mono text-[11px] text-muted">
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Resposta &lt; 1 segundo · 24/7</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Triagem clínica + sumarização</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Handoff inteligente para secretária</li>
-                    </ul>
-                </div>
-
-                <!-- Card 3: Humans (the differentiator) — gets a tinted bg to call attention -->
-                <div class="p-8 lg:p-10 bg-foreground text-background relative flex flex-col gap-5">
-                    <div class="absolute top-0 right-0 px-3 py-1.5 bg-accent text-white font-mono text-[9px] uppercase tracking-widest rounded-bl-lg">Diferencial Aios</div>
-                    <div class="flex items-center justify-between mt-4">
-                        <span class="font-mono text-[10px] uppercase tracking-widest text-background/60">03 · Time humano</span>
-                        <i data-lucide="users-round" class="w-5 h-5 text-background" stroke-width="1.75"></i>
-                    </div>
-                    <h3 class="text-xl text-background" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.03em;">Gestor de CRM + Desenvolvimento + Especialistas em IA</h3>
-                    <p class="text-[14px] text-background/75 leading-[1.55]">
-                        Não é só ferramenta. Um gestor humano dedicado opera o seu CRM, nosso squad de devs codifica integrações sob medida, e especialistas em IA ajustam o agente da sua clínica continuamente.
-                    </p>
-                    <ul class="mt-auto space-y-1.5 font-mono text-[11px] text-background/70">
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Cadência SEG · QUA · SEX</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Integrações em dias, não meses</li>
-                        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>IA treinada com seus protocolos</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 4: AGENTE IA -->
-        <section id="produto" class="max-w-7xl mx-auto px-6 py-28 border-b border-border">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div>
-                    <h2 class="font-sans font-semibold text-3xl md:text-4xl tracking-tight leading-tight mb-6">
-                        Seu novo recepcionista que <span class="text-muted">nunca dorme.</span>
-                    </h2>
-                    <p class="text-muted text-base mb-10 leading-relaxed">
-                        Esqueça a fila de espera no WhatsApp. A inteligência artificial responde instantaneamente, filtra curiosos, entende a necessidade médica e envia o link direto para pagamento ou agendamento na sua agenda.
-                    </p>
-                    
-                    <div class="space-y-6">
-                        <div class="flex gap-4">
-                            <div class="w-10 h-10 rounded border border-border bg-surface flex items-center justify-center shrink-0"><i data-lucide="bot" class="w-5 h-5 text-foreground"></i></div>
-                            <div>
-                                <h3 class="font-medium text-[15px] mb-1">Resposta em &lt; 1 segundo</h3>
-                                <p class="text-sm text-muted">O paciente enviou oi, a IA apresenta a clínica imediatamente.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="w-10 h-10 rounded border border-border bg-surface flex items-center justify-center shrink-0"><i data-lucide="brain" class="w-5 h-5 text-accent"></i></div>
-                            <div>
-                                <h3 class="font-medium text-[15px] mb-1 text-accent">Aprende seus protocolos</h3>
-                                <p class="text-sm text-muted">Treinada com seu FAQ, valores, procedimentos e regras da clínica.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="w-10 h-10 rounded border border-border bg-surface flex items-center justify-center shrink-0"><i data-lucide="target" class="w-5 h-5 text-foreground"></i></div>
-                            <div>
-                                <h3 class="font-medium text-[15px] mb-1">Qualifica e Agenda</h3>
-                                <p class="text-sm text-muted">Extrai dados estruturados (convênio, sintomas) e move para o funil.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="w-10 h-10 rounded border border-border bg-surface flex items-center justify-center shrink-0"><i data-lucide="rotate-ccw" class="w-5 h-5 text-foreground"></i></div>
-                            <div>
-                                <h3 class="font-medium text-[15px] mb-1">Handoff Inteligente</h3>
-                                <p class="text-sm text-muted">Se a IA trava numa exceção médica, ela notifica a secretária humana.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Real product screenshot · the AI agent running inside Aios -->
-                <div class="relative">
-                    <div class="rounded-xl border border-border bg-surface overflow-hidden shadow-card">
-                        <img src="assets/screens/Atendimento_02.png" alt="Atendimento real no Aios — agente IA conversando, qualificando e movendo para o funil" class="w-full h-auto block" loading="lazy" />
-                    </div>
-                    <!-- Floating proof badge -->
-                    <div class="hidden md:flex absolute -left-3 lg:-left-6 -bottom-4 items-center gap-2.5 pl-2.5 pr-4 py-2 rounded-xl bg-background border border-border shadow-card">
-                        <div class="w-8 h-8 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center">
-                            <i data-lucide="message-square" class="w-4 h-4 text-accent" stroke-width="1.75"></i>
-                        </div>
-                        <div>
-                            <div class="font-mono text-[9px] uppercase tracking-widest text-muted">Inbox ao vivo</div>
-                            <div class="text-[12px] font-medium text-foreground flex items-center gap-1.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-soft"></span>
-                                IA atendendo agora
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 6: GESTOR DE CRM DEDICADO — narrative peak before features -->
-        <section id="crm" class="max-w-7xl mx-auto px-6 py-28 border-b border-border">
-
-            <div class="mb-12">
-                <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-surface border border-accent/20 mb-6">
-                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-accent"></i>
-                    <span class="font-mono text-[10px] uppercase tracking-wider text-accent font-medium">Exclusivo Aios</span>
-                </div>
-                <h2 class="font-sans font-semibold text-3xl md:text-5xl tracking-tight mb-4">Seu Gestor de CRM dedicado.</h2>
-                <p class="text-muted text-base max-w-2xl text-balance">
-                    Um profissional interno nosso, totalmente dedicado à sua clínica. Configura, monitora, otimiza e gera relatórios para sua equipe só precisar atender o paciente.
-                </p>
-            </div>
-
-            <div class="surface-borders rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 shadow-glass border border-border">
-
-                <!-- Left Panel -->
-                <div class="md:col-span-5 p-8 flex flex-col justify-between">
-                    <div>
-                        <ul class="space-y-6 font-mono text-sm">
-                            <li class="flex items-start gap-3">
-                                <span class="bg-surface border border-border text-foreground px-2 py-0.5 rounded text-xs font-medium w-12 text-center shrink-0">SEG</span>
-                                <span class="text-muted mt-0.5">Planejamento e setup de campanhas na base.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="bg-surface border border-border text-foreground px-2 py-0.5 rounded text-xs font-medium w-12 text-center shrink-0">QUA</span>
-                                <span class="text-muted mt-0.5">Otimização fina (ajuste de prompts da IA).</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="bg-surface border border-border text-foreground px-2 py-0.5 rounded text-xs font-medium w-12 text-center shrink-0">SEX</span>
-                                <span class="text-foreground mt-0.5">Relatório executivo entregue no WhatsApp.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="bg-accent/10 border border-accent/20 text-accent px-2 py-0.5 rounded text-xs font-medium w-12 text-center shrink-0">24/7</span>
-                                <span class="text-muted mt-0.5">Monitoramento ativo de quedas ou gaps.</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="grid grid-cols-3 gap-4 pt-10 mt-10 border-t border-border">
-                        <div>
-                            <div class="text-2xl font-semibold mb-1 text-foreground">48h</div>
-                            <div class="text-[10px] font-mono text-muted uppercase tracking-wide">Onboarding</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-semibold mb-1">4×</div>
-                            <div class="text-[10px] font-mono text-muted uppercase tracking-wide">Relat. / Mês</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-semibold mb-1 text-aios-green">100%</div>
-                            <div class="text-[10px] font-mono text-aios-green uppercase tracking-wide">Humano</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Top Panel (Chat Preview) -->
-                <div class="md:col-span-7 border-b border-border p-8 flex bg-surface">
-                    <div class="w-full max-w-md mx-auto bg-background border border-border rounded-xl flex flex-col overflow-hidden">
-                        <div class="h-10 border-b border-border bg-surface flex items-center px-4 gap-2">
-                             <div class="w-5 h-5 rounded bg-surface-sec border border-border flex items-center justify-center font-mono text-[9px]">G</div>
-                             <span class="text-xs font-mono text-foreground font-medium">Gestor Aios</span>
-                        </div>
-                        <div class="p-5 flex flex-col gap-4">
-                            <div class="bg-surface-sec border border-border p-3 rounded-lg rounded-tl-sm text-sm text-muted">
-                                Bom dia, Dr. Ricardo. Identifiquei no painel que <strong class="text-foreground font-medium">34% dos pacientes</strong> desistem na etapa de orçamento da Ortodontia.
-                            </div>
-                            <div class="bg-accent/10 border border-accent/20 p-3 rounded-lg rounded-tl-sm text-sm text-foreground">
-                                Sugiro ativarmos um <span class="text-accent">follow-up automático de 48h</span> via WhatsApp oferecendo parcelamento. Posso configurar isso hoje à tarde?
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Bottom Panel (Grid) -->
-                <div class="md:col-span-7 grid grid-cols-2">
-                    <div class="p-6 border-r border-border card-hover">
-                        <i data-lucide="zap" class="w-5 h-5 text-muted mb-4"></i>
-                        <h3 class="font-medium text-sm text-foreground mb-1">Execução Rápida</h3>
-                        <p class="text-[13px] text-muted">Seu time pede a mudança, nosso gestor aperta os botões no CRM.</p>
-                    </div>
-                    <div class="p-6 card-hover">
-                        <i data-lucide="bar-chart-3" class="w-5 h-5 text-muted mb-4"></i>
-                        <h3 class="font-medium text-sm text-foreground mb-1">Relatórios Limpos</h3>
-                        <p class="text-[13px] text-muted">Métricas de agendamento traduzidas para a linguagem do médico.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Supporting screenshot: real team management UI -->
-            <div class="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <div class="lg:col-span-5">
-                    <span class="font-mono text-[10px] uppercase tracking-widest text-accent">Acesso ao painel</span>
-                    <h3 class="font-sans font-semibold text-xl md:text-2xl mt-3 mb-3 tracking-tight text-foreground">
-                        Seu gestor opera o painel real do Aios — não um chat genérico.
-                    </h3>
-                    <p class="text-[14px] text-muted leading-relaxed">
-                        Criação de equipes, atribuição de roles, configuração de campanhas, ajuste de prompts da IA. Tudo o que sua clínica precisa, executado por quem entende a ferramenta de cabo a rabo.
-                    </p>
-                </div>
-                <div class="lg:col-span-7">
-                    <div class="rounded-xl border border-border bg-surface overflow-hidden shadow-card">
-                        <img src="assets/screens/EquipeCriacao.png" alt="Painel real do Aios — criação e gestão de equipes" class="w-full h-auto block" loading="lazy" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Second proof row: Kanban CRM the gestor operates -->
-            <div class="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <div class="lg:col-span-7 lg:order-1 order-2">
-                    <div class="rounded-xl border border-border bg-surface overflow-hidden shadow-card">
-                        <img src="assets/screens/funil_vendas.jpg" alt="Funil de vendas em Kanban — Prospecção, Contrato, Visita, Reclamação, Retenção" class="w-full h-auto block" loading="lazy" />
-                    </div>
-                </div>
-                <div class="lg:col-span-5 lg:order-2 order-1">
-                    <span class="font-mono text-[10px] uppercase tracking-widest text-accent">Funil em tempo real</span>
-                    <h3 class="font-sans font-semibold text-xl md:text-2xl mt-3 mb-3 tracking-tight text-foreground">
-                        Cada paciente, em uma etapa visível.
-                    </h3>
-                    <p class="text-[14px] text-muted leading-relaxed">
-                        Prospecção, Contrato, Visita, Retenção. O Kanban mostra onde cada lead está parado — e o gestor age antes da agenda esfriar. Ticket médio, valor parado, dias em atraso, tudo em uma tela.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 8: INTEGRAÇÕES BRASILEIRAS -->
-        <section id="integracoes" class="py-28 border-b border-border bg-surface-sec/30">
-            <div class="max-w-7xl mx-auto px-6 mb-16 text-center">
-                <h2 class="font-sans font-semibold text-3xl md:text-4xl tracking-tight mb-4">Seu software atual, turbinado.</h2>
-            </div>
-
-            <div class="max-w-4xl mx-auto px-6">
-                <!-- Tier 1 -->
-                <div class="mb-4 flex items-center justify-between border-b border-border pb-2">
-                    <span class="font-mono text-xs uppercase tracking-widest text-muted">Sistemas Médicos (Tier 1)</span>
-                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-accent/10 border border-accent/20 font-mono text-[9px] text-accent uppercase"><span class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse-soft"></span> API Aberta Ativa</span>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-16">
-                    <!-- Highlight: Feegow -->
-                    <div class="bg-surface border border-accent/40 rounded-xl p-6 flex flex-col justify-between transform transition hover:-translate-y-0.5">
-                        <div class="flex items-center justify-between mb-8">
-                            <div class="font-sans font-semibold text-xl tracking-tight text-foreground">FEEGOW CLINIC</div>
-                            <div class="text-[9px] font-mono text-accent uppercase tracking-widest bg-background px-2 py-1 rounded border border-border">Mais Popular</div>
-                        </div>
-                        <div class="flex items-center gap-4 text-xs font-mono text-muted divider-x">
-                            <span>200+ Endpoints</span>
-                            <span class="w-px h-3 bg-border"></span>
-                            <span>Webhooks Nativos</span>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-background border border-border rounded-xl p-4 flex items-center text-sm font-medium justify-center text-muted hover:text-foreground hover:border-accent/50 transition-colors">iClinic</div>
-                        <div class="bg-background border border-border rounded-xl p-4 flex items-center text-sm font-medium justify-center text-muted hover:text-foreground hover:border-accent/50 transition-colors">Clínica Nas Nuvens</div>
-                        <div class="bg-background border border-border rounded-xl p-4 flex items-center text-sm font-medium justify-center text-muted hover:text-foreground hover:border-accent/50 transition-colors">Clinicorp</div>
-                        <div class="bg-background border border-border rounded-xl p-4 flex items-center text-sm font-medium justify-center text-muted hover:text-foreground hover:border-accent/50 transition-colors" style="font-size: 13px;">Ninsaúde Apolo</div>
-                    </div>
-                </div>
-
-                <!-- Tier 2 / Universal -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div>
-                        <div class="mb-4 flex items-center justify-between border-b border-border pb-2">
-                            <span class="font-mono text-xs uppercase tracking-widest text-muted">Receituário & Portais</span>
-                            <span class="inline-flex items-center px-1.5 py-0.5 rounded bg-surface border border-border font-mono text-[9px] text-muted uppercase">Parceria Integrada</span>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1.5 border border-border rounded text-sm text-foreground bg-background">Memed</span>
-                            <span class="px-3 py-1.5 border border-border rounded text-sm text-foreground bg-background">Doctoralia</span>
-                            <span class="px-3 py-1.5 border border-border rounded text-sm text-foreground bg-background">ByDoctor</span>
-                            <span class="px-3 py-1.5 border border-border rounded text-sm text-foreground bg-background">Shosp</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="mb-4 flex items-center border-b border-border pb-2">
-                            <span class="font-mono text-xs uppercase tracking-widest text-muted">Ecossistema Universal</span>
-                        </div>
-                        <div class="flex flex-wrap gap-2 text-muted font-mono text-[11px] uppercase tracking-wider">
-                            <span>WhatsApp Business API</span> <span class="text-border mx-1">/</span>
-                            <span>Google Calendar</span> <span class="text-border mx-1">/</span>
-                            <span>Asaas</span> <span class="text-border mx-1">/</span>
-                            <span>Stripe</span> <span class="text-border mx-1">/</span>
-                            <span>Meta Ads (Pixel)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 9: TIME ESPECIALIZADO -->
-        <section id="time" class="max-w-[1400px] mx-auto px-6 py-28 border-b border-border relative overflow-hidden">
-            <!-- Asymmetric header — left aligned, no center -->
-            <div class="grid lg:grid-cols-12 gap-10 items-end mb-14 relative z-10">
-                <div class="lg:col-span-7">
-                    <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-accent/30 bg-accent/10 text-[10px] font-mono text-accent uppercase tracking-widest mb-6">
-                        <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
-                        Diferencial Aios
-                    </span>
-                    <h2 class="text-4xl md:text-5xl lg:text-[60px] text-foreground leading-[0.96]">
-                        Não é só software.<br/>
-                        <span class="text-accent">É um time especializado</span><br/>
-                        dentro da sua clínica.
-                    </h2>
-                </div>
-                <div class="lg:col-span-5">
-                    <p class="text-muted text-[17px] leading-[1.6]">
-                        Você não compra uma ferramenta solta. Contrata três especialistas que operam como extensão da sua equipe &mdash; sem fricção de contratação, sem CLT, sem treinamento. Gestor de CRM, Desenvolvimento e especialistas em IA dentro da assinatura.
-                    </p>
-                </div>
-            </div>
-
-            <!-- 3 specialist columns (from old S8.5) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border rounded-2xl overflow-hidden relative z-10">
-
-                <!-- 1. Gestor de CRM -->
-                <div class="bg-background p-7 flex flex-col gap-4 hover:bg-surface transition-colors">
-                    <div class="flex items-start justify-between">
-                        <div class="w-11 h-11 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center">
-                            <i data-lucide="user-cog" class="w-5 h-5 text-accent" stroke-width="1.75"></i>
-                        </div>
-                        <span class="font-mono text-[10px] text-muted uppercase tracking-widest">01 · Gestão</span>
-                    </div>
-                    <div>
-                        <h3 class="font-sans text-[19px] text-foreground mb-1.5" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">Gestor de CRM Humano</h3>
-                        <p class="text-[13px] text-muted leading-relaxed">
-                            Um profissional interno nosso, dedicado à sua clínica. Configura, monitora, otimiza e gera relatórios. Sua equipe só precisa atender o paciente.
-                        </p>
-                    </div>
-                    <div class="mt-2 space-y-2 pt-4 border-t border-border">
-                        <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Cadência semanal SEG/QUA/SEX</span></div>
-                        <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Monitoramento ativo todo dia</span></div>
-                        <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Relatório executivo mensal</span></div>
-                    </div>
-                </div>
-
-                <!-- 2. Time de Desenvolvimento -->
-                <div class="bg-background p-7 flex flex-col gap-4 hover:bg-surface transition-colors">
-                    <div class="flex items-start justify-between">
-                        <div class="w-11 h-11 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center">
-                            <i data-lucide="code-2" class="w-5 h-5 text-accent" stroke-width="1.75"></i>
-                        </div>
-                        <span class="font-mono text-[10px] text-muted uppercase tracking-widest">02 · Engenharia</span>
-                    </div>
-                    <div>
-                        <h3 class="font-sans text-[19px] text-foreground mb-1.5" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">Time de Desenvolvimento</h3>
-                        <p class="text-[13px] text-muted leading-relaxed">
-                            Precisa de uma integração que ainda não existe? Nosso squad codifica em dias, não meses. Já conectamos Feegow, iClinic, Memed, ERPs hospitalares e até planilhas legacy.
-                        </p>
-                    </div>
-                    <div class="mt-2 space-y-2 pt-4 border-t border-border">
-                        <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Integrações sob medida</span></div>
-                        <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>API Aios completa e documentada</span></div>
-                        <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Webhooks e automações low-code</span></div>
-                    </div>
-                </div>
-
-                <!-- 3. Especialistas em IA -->
-                <div class="bg-background p-7 flex flex-col gap-4 hover:bg-surface transition-colors">
-                    <div class="flex items-start justify-between">
-                        <div class="w-11 h-11 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center">
-                            <i data-lucide="brain-circuit" class="w-5 h-5 text-accent" stroke-width="1.75"></i>
-                        </div>
-                        <span class="font-mono text-[10px] text-muted uppercase tracking-widest">03 · IA Aplicada</span>
-                    </div>
-                    <div>
-                        <h3 class="font-sans text-[19px] text-foreground mb-1.5" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">Especialistas em IA</h3>
-                        <p class="text-[13px] text-muted leading-relaxed">
-                            Não vendemos chatbot genérico. Treinamos a IA com SEUS protocolos clínicos, sua tabela de procedimentos, seus convênios. Cada agente é construído sob medida.
-                        </p>
-                    </div>
-                    <div class="mt-2 space-y-2 pt-4 border-t border-border">
-                        <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>IA por especialidade clínica</span></div>
-                        <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Triagem e sumarização clínica</span></div>
-                        <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Treinamento contínuo</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Proof: the IA specialists' deliverable — configured agents in production -->
-            <div class="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-                <div class="lg:col-span-5">
-                    <span class="font-mono text-[10px] uppercase tracking-widest text-accent">O time entregando</span>
-                    <h3 class="font-sans font-semibold text-xl md:text-2xl mt-3 mb-3 tracking-tight text-foreground">
-                        Agentes treinados, integrados, operando.
-                    </h3>
-                    <p class="text-[14px] text-muted leading-relaxed">
-                        Cada agente é configurado pelos nossos especialistas com o protocolo da sua especialidade. Não é prompt genérico &mdash; é IA que conhece sua tabela, seus convênios, suas regras de triagem. Vendedor, atendente, suporte: um agente para cada papel.
-                    </p>
-                </div>
-                <div class="lg:col-span-7">
-                    <div class="rounded-xl border border-border bg-surface overflow-hidden shadow-card">
-                        <img src="assets/screens/Agentes_Inteligentes.png" alt="Painel de agentes inteligentes — IA configurada por especialidade e papel" class="w-full h-auto block" loading="lazy" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bottom band: cadence + CTA -->
-            <div class="mt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pt-8 border-t border-border relative z-10">
-                <div class="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[11px] text-muted uppercase tracking-widest">
-                    <span class="flex items-center gap-1.5">
-                        <span class="w-1 h-1 rounded-full bg-accent"></span>
-                        Onboarding em 48h
-                    </span>
-                    <span class="text-border">·</span>
-                    <span>Gestor dedicado</span>
-                    <span class="text-border">·</span>
-                    <span>Desenvolvimento</span>
-                    <span class="text-border">·</span>
-                    <span>IA personalizada</span>
-                    <span class="text-border">·</span>
-                    <span>Suporte humano</span>
-                </div>
-                <a href="#final-cta" class="inline-flex items-center gap-2 px-5 h-11 rounded-lg border border-accent/40 bg-accent/10 hover:bg-accent/15 hover:border-accent/60 text-accent text-[13px] font-medium transition-colors">
-                    <i data-lucide="calendar" class="w-4 h-4" stroke-width="1.75"></i>
-                    Marcar diagnóstico
-                </a>
-            </div>
-
-        </section>
-
-        <!-- SECTION 10: PROOF BLOC — fused ROI dashboards + testimonial -->
-        <section class="border-b border-border bg-surface relative overflow-hidden">
-            <div class="max-w-[1400px] mx-auto px-6 py-24 md:py-28">
-
-                <!-- Section header -->
-                <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
-                    <div class="lg:col-span-7">
-                        <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-background text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
-                            <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
-                            Resultado, em números e em palavras
-                        </span>
-                        <h2 class="text-4xl md:text-5xl lg:text-[64px] text-foreground leading-[0.96]">
-                            Rastreie cada centavo,<br/>
-                            do anúncio à consulta.
-                        </h2>
-                    </div>
-                    <div class="lg:col-span-5">
-                        <p class="text-muted text-[17px] leading-[1.6]">
-                            Não acreditamos em prova social maquiada. Mostramos o painel real e o que um diretor médico, que opera 3 unidades, falou depois de 90 dias.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Grid: dashboards (left, 7) + testimonial (right, 5) -->
-                <div class="grid lg:grid-cols-12 gap-8 items-stretch">
-
-                    <!-- Left · stacked real dashboards -->
-                    <div class="lg:col-span-7 flex flex-col gap-5">
-                        <div class="relative rounded-2xl border border-border bg-background overflow-hidden shadow-card">
-                            <img src="assets/screens/Grafico_funil_conversao.png" alt="Funil de conversão real do Aios — do anúncio à consulta" class="w-full h-auto block" loading="lazy" />
-                        </div>
-                        <div class="relative rounded-2xl border border-border bg-background overflow-hidden shadow-card">
-                            <img src="assets/screens/Grafico_Numeros.png" alt="Indicadores executivos · ROI por campanha, ticket médio, conversão" class="w-full h-auto block" loading="lazy" />
-                        </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 border border-border rounded-xl bg-background overflow-hidden">
-                            <div class="p-4 border-r border-border">
-                                <div class="font-mono text-[9px] uppercase tracking-widest text-muted mb-1">Atribuição</div>
-                                <div class="font-display text-foreground" style="font-size:20px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing:-0.03em;">Meta · Google</div>
-                            </div>
-                            <div class="p-4 border-r border-border">
-                                <div class="font-mono text-[9px] uppercase tracking-widest text-muted mb-1">CAC</div>
-                                <div class="font-display text-foreground" style="font-size:20px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing:-0.03em;">tempo real</div>
-                            </div>
-                            <div class="p-4 border-r border-border border-t sm:border-t-0">
-                                <div class="font-mono text-[9px] uppercase tracking-widest text-muted mb-1">Funil</div>
-                                <div class="font-display text-foreground" style="font-size:20px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing:-0.03em;">completo</div>
-                            </div>
-                            <div class="p-4 border-t sm:border-t-0">
-                                <div class="font-mono text-[9px] uppercase tracking-widest text-muted mb-1">Equipe</div>
-                                <div class="font-display text-foreground" style="font-size:20px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing:-0.03em;">IA vs humano</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right · testimonial as a tall card, integrated -->
-                    <div class="lg:col-span-5 flex">
-                        <div class="rounded-2xl bg-foreground text-background p-8 md:p-10 flex flex-col w-full relative overflow-hidden">
-                            <!-- decorative quote mark -->
-                            <div class="absolute -top-4 -right-4 text-[180px] leading-none text-background/10 select-none pointer-events-none" style="font-family: 'Bricolage Grotesque'; font-weight: 800;">"</div>
-                            <i data-lucide="quote" class="w-7 h-7 text-accent mb-6 relative z-10"></i>
-                            <p class="text-xl md:text-2xl leading-[1.3] mb-8 relative z-10 text-balance" style="font-family: 'Bricolage Grotesque'; font-weight: 600; font-variation-settings: 'wdth' 96, 'wght' 600; letter-spacing: -0.025em;">
-                                Antes do Aios, torrávamos R$ 15 mil em Ads por mês, as leads entravam e a recepção demorava 4h pra responder. <span class="text-accent">O paciente já tinha agendado no concorrente.</span> Hoje, no segundo que o cara clica no anúncio, o robô atende e qualifica. Zeramos o gargalo.
-                            </p>
-                            <div class="mt-auto relative z-10">
-                                <!-- separator -->
-                                <div class="h-px bg-background/15 mb-5"></div>
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <div class="font-display text-background text-lg" style="font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.03em;">Dr. Leandro Marcondes</div>
-                                        <div class="font-mono text-[10px] uppercase tracking-widest text-background/55 mt-1">Diretor médico · 3 unidades · Estética avançada</div>
-                                    </div>
-                                    <div class="flex flex-col items-end">
-                                        <div class="font-display text-3xl text-accent" style="font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">+312%</div>
-                                        <div class="font-mono text-[9px] uppercase tracking-widest text-background/55 mt-0.5">consultas em 90 dias</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mini testimonials grid — proof per specialty -->
-                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border rounded-2xl overflow-hidden">
-                    <div class="bg-background p-7 flex flex-col gap-4">
-                        <div class="flex items-center justify-between">
-                            <span class="font-mono text-[10px] uppercase tracking-widest text-muted">Dermatologia · SP</span>
-                            <span class="font-display text-accent" style="font-size: 28px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">−73%</span>
-                        </div>
-                        <p class="text-[14px] text-foreground leading-[1.5]">
-                            "Em 60 dias o no-show caiu de 41% pra 11%. O lembrete da véspera fez o que minha secretária não conseguia."
-                        </p>
-                        <div class="mt-auto pt-4 border-t border-border">
-                            <div class="font-display text-foreground" style="font-size: 14px; font-variation-settings: 'wdth' 100, 'wght' 700;">Dra. Roberta Andreozzi</div>
-                            <div class="font-mono text-[10px] uppercase tracking-widest text-muted mt-1">Dermatologista · 2 unidades</div>
-                        </div>
-                    </div>
-
-                    <div class="bg-background p-7 flex flex-col gap-4">
-                        <div class="flex items-center justify-between">
-                            <span class="font-mono text-[10px] uppercase tracking-widest text-muted">Odontologia · PR</span>
-                            <span class="font-display text-aios-green" style="font-size: 28px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">+R$&nbsp;18k</span>
-                        </div>
-                        <p class="text-[14px] text-foreground leading-[1.5]">
-                            "A IA recuperou 24 pacientes da carteira inativa em um trimestre. Receita que tava parada e ninguém olhava."
-                        </p>
-                        <div class="mt-auto pt-4 border-t border-border">
-                            <div class="font-display text-foreground" style="font-size: 14px; font-variation-settings: 'wdth' 100, 'wght' 700;">Dr. Henrique Maciel</div>
-                            <div class="font-mono text-[10px] uppercase tracking-widest text-muted mt-1">Cirurgião-dentista · Curitiba</div>
-                        </div>
-                    </div>
-
-                    <div class="bg-background p-7 flex flex-col gap-4">
-                        <div class="flex items-center justify-between">
-                            <span class="font-mono text-[10px] uppercase tracking-widest text-muted">Estética · RJ</span>
-                            <span class="font-display text-accent" style="font-size: 28px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">3.4×</span>
-                        </div>
-                        <p class="text-[14px] text-foreground leading-[1.5]">
-                            "Os disparos de aniversário pagaram o Aios sozinhos no primeiro mês. Triplicaram os agendamentos de toxina."
-                        </p>
-                        <div class="mt-auto pt-4 border-t border-border">
-                            <div class="font-display text-foreground" style="font-size: 14px; font-variation-settings: 'wdth' 100, 'wght' 700;">Dra. Camila Vasconcelos</div>
-                            <div class="font-mono text-[10px] uppercase tracking-widest text-muted mt-1">Médica estética · Ipanema</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bottom trust band -->
-                <div class="mt-12 pt-8 border-t border-border flex flex-wrap items-center gap-x-8 gap-y-3 font-mono text-[10px] uppercase tracking-widest text-muted">
-                    <span>Clínicas usando · +340</span>
-                    <span class="text-border">·</span>
-                    <span>Especialidades atendidas · 11</span>
-                    <span class="text-border">·</span>
-                    <span>Atendimentos no WhatsApp · +2,8M / mês</span>
-                    <span class="text-border">·</span>
-                    <span>Uptime API · 99.97%</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 10.5: ANTES / DEPOIS + ROI math -->
-        <section class="border-b border-border relative overflow-hidden">
-            <div class="max-w-[1400px] mx-auto px-6 py-24 md:py-28">
-
-                <!-- Header asymmetric -->
-                <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
-                    <div class="lg:col-span-7">
-                        <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-surface text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
-                            <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
-                            A matemática que ninguém faz
-                        </span>
-                        <h2 class="text-4xl md:text-5xl lg:text-[60px] text-foreground leading-[0.96]">
-                            Sua clínica hoje vs.<br/>
-                            sua clínica <span class="text-accent">no Aios.</span>
-                        </h2>
-                    </div>
-                    <div class="lg:col-span-5">
-                        <p class="text-muted text-[17px] leading-[1.6]">
-                            Não é sobre tecnologia. É sobre quanto você está deixando na mesa hoje. Faz as contas: secretária, anúncios sem rastreio, leads perdidos, no-show, retornos que não acontecem.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Before / After comparison -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border border border-border rounded-2xl overflow-hidden">
-
-                    <!-- BEFORE column -->
-                    <div class="bg-surface p-8 md:p-10 relative">
-                        <div class="flex items-center gap-3 mb-7">
-                            <span class="w-2 h-2 rounded-full bg-foreground/30"></span>
-                            <span class="font-mono text-[10px] uppercase tracking-widest text-muted">Sua clínica hoje · sem Aios</span>
-                        </div>
-                        <ul class="space-y-5">
-                            <li class="flex items-start gap-4 pb-5 border-b border-border">
-                                <i data-lucide="x" class="w-4 h-4 text-foreground/40 shrink-0 mt-1" stroke-width="2"></i>
-                                <div class="flex-1">
-                                    <div class="text-[15px] text-foreground font-medium mb-1">Recepção atende até as 18h</div>
-                                    <div class="text-[13px] text-muted">14% das mensagens de fim de semana são respondidas.</div>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-4 pb-5 border-b border-border">
-                                <i data-lucide="x" class="w-4 h-4 text-foreground/40 shrink-0 mt-1" stroke-width="2"></i>
-                                <div class="flex-1">
-                                    <div class="text-[15px] text-foreground font-medium mb-1">Agenda com 32% de buracos</div>
-                                    <div class="text-[13px] text-muted">No-show entre 28-45% nas especialidades particulares.</div>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-4 pb-5 border-b border-border">
-                                <i data-lucide="x" class="w-4 h-4 text-foreground/40 shrink-0 mt-1" stroke-width="2"></i>
-                                <div class="flex-1">
-                                    <div class="text-[15px] text-foreground font-medium mb-1">R$ 15 mil em Ads sem rastreio</div>
-                                    <div class="text-[13px] text-muted">Você sabe qual campanha trouxe consulta. Mas não sabe qual fechou.</div>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-4 pb-5 border-b border-border">
-                                <i data-lucide="x" class="w-4 h-4 text-foreground/40 shrink-0 mt-1" stroke-width="2"></i>
-                                <div class="flex-1">
-                                    <div class="text-[15px] text-foreground font-medium mb-1">Carteira inativa esquecida</div>
-                                    <div class="text-[13px] text-muted">Pacientes que sumiram há 6+ meses ficam num CRM que ninguém abre.</div>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-4">
-                                <i data-lucide="x" class="w-4 h-4 text-foreground/40 shrink-0 mt-1" stroke-width="2"></i>
-                                <div class="flex-1">
-                                    <div class="text-[15px] text-foreground font-medium mb-1">Secretária no limite</div>
-                                    <div class="text-[13px] text-muted">Atende, agenda, lembra, fatura, lida com convênio — e WhatsApp acumula.</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <!-- Subtotal cost -->
-                        <div class="mt-8 pt-6 border-t border-border-strong flex items-baseline justify-between">
-                            <span class="font-mono text-[10px] uppercase tracking-widest text-loss-red">Custo de oportunidade · mês</span>
-                            <span class="font-display text-loss-red" style="font-size: 36px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">−R$&nbsp;32.450</span>
-                        </div>
-                    </div>
-
-                    <!-- AFTER column — foreground inverted for emphasis -->
-                    <div class="bg-foreground text-background p-8 md:p-10 relative">
-                        <div class="flex items-center gap-3 mb-7">
-                            <span class="w-2 h-2 rounded-full bg-accent animate-pulse-soft"></span>
-                            <span class="font-mono text-[10px] uppercase tracking-widest text-background/60">Com Aios · operando</span>
-                        </div>
-                        <ul class="space-y-5">
-                            <li class="flex items-start gap-4 pb-5 border-b border-background/15">
-                                <i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-1" stroke-width="2.5"></i>
-                                <div class="flex-1">
-                                    <div class="text-[15px] text-background font-medium mb-1">IA responde em &lt; 1 segundo, 24/7</div>
-                                    <div class="text-[13px] text-background/65">Sábado, domingo, madrugada, feriado. Sempre.</div>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-4 pb-5 border-b border-background/15">
-                                <i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-1" stroke-width="2.5"></i>
-                                <div class="flex-1">
-                                    <div class="text-[15px] text-background font-medium mb-1">Agenda 89% ocupada</div>
-                                    <div class="text-[13px] text-background/65">Lembretes anti no-show D-1 + D-4h reduzem faltas em 68%.</div>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-4 pb-5 border-b border-background/15">
-                                <i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-1" stroke-width="2.5"></i>
-                                <div class="flex-1">
-                                    <div class="text-[15px] text-background font-medium mb-1">ROI por campanha em tempo real</div>
-                                    <div class="text-[13px] text-background/65">Sabe exatamente qual anúncio do Instagram fechou tratamento de R$ 8 mil.</div>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-4 pb-5 border-b border-background/15">
-                                <i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-1" stroke-width="2.5"></i>
-                                <div class="flex-1">
-                                    <div class="text-[15px] text-background font-medium mb-1">Carteira inativa virando consulta</div>
-                                    <div class="text-[13px] text-background/65">Disparos de recall trazem 18-24 pacientes/trimestre pra clínica média.</div>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-4">
-                                <i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-1" stroke-width="2.5"></i>
-                                <div class="flex-1">
-                                    <div class="text-[15px] text-background font-medium mb-1">Secretária focada em atender presencial</div>
-                                    <div class="text-[13px] text-background/65">A IA filtra os curiosos. Sua equipe só vê paciente qualificado.</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <!-- Subtotal recovered -->
-                        <div class="mt-8 pt-6 border-t border-background/20 flex items-baseline justify-between">
-                            <span class="font-mono text-[10px] uppercase tracking-widest text-background/60">Receita devolvida · mês</span>
-                            <span class="font-display text-accent" style="font-size: 36px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">+R$&nbsp;47.900</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ROI math strip -->
-                <div class="mt-10 grid grid-cols-1 md:grid-cols-4 border border-border rounded-2xl overflow-hidden bg-surface">
-                    <div class="p-6 md:border-r border-border">
-                        <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-3">Você investe</div>
-                        <div class="font-display text-foreground" style="font-size: 32px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">R$&nbsp;2.490</div>
-                        <div class="text-[12px] text-muted mt-2">Plano Clínica Pro · mensal</div>
-                    </div>
-                    <div class="p-6 md:border-r border-border border-t md:border-t-0">
-                        <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-3">Você economiza</div>
-                        <div class="font-display text-foreground" style="font-size: 32px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">R$&nbsp;3.200</div>
-                        <div class="text-[12px] text-muted mt-2">Menos 1 secretária noturna + Z-API</div>
-                    </div>
-                    <div class="p-6 md:border-r border-border border-t md:border-t-0">
-                        <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-3">Você devolve</div>
-                        <div class="font-display text-foreground" style="font-size: 32px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">R$&nbsp;12.800</div>
-                        <div class="text-[12px] text-muted mt-2">+8 consultas/semana × ticket médio</div>
-                    </div>
-                    <div class="p-6 bg-accent text-white border-t md:border-t-0">
-                        <div class="font-mono text-[10px] uppercase tracking-widest text-white/75 mb-3">ROI mensal</div>
-                        <div class="font-display text-white" style="font-size: 32px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">5.1×</div>
-                        <div class="text-[12px] text-white/80 mt-2">Conservador · clínica média</div>
-                    </div>
-                </div>
-
-                <p class="mt-6 text-center font-mono text-[11px] text-muted uppercase tracking-widest">
-                    Números baseados em médias reais de clínicas operando há 6+ meses · calculado por especialidade no diagnóstico gratuito
-                </p>
-            </div>
-        </section>
-
-        <!-- SECTION 10.6: FAQ — objeções antes do pricing -->
-        <section class="border-b border-border bg-surface relative overflow-hidden">
-            <div class="max-w-[1400px] mx-auto px-6 py-24 md:py-28">
-
-                <!-- Header -->
-                <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
-                    <div class="lg:col-span-7">
-                        <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-background text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
-                            <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
-                            O que você tá pensando agora
-                        </span>
-                        <h2 class="text-4xl md:text-5xl lg:text-[60px] text-foreground leading-[0.96]">
-                            Antes que você<br/>
-                            pergunte.
-                        </h2>
-                    </div>
-                    <div class="lg:col-span-5">
-                        <p class="text-muted text-[17px] leading-[1.6]">
-                            Toda clínica passa pelas mesmas dúvidas antes de assinar. A gente já ouviu &mdash; e responde direto, sem rodeio comercial.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- FAQ grid · 2 columns at lg -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border border border-border rounded-2xl overflow-hidden">
-
-                    <div class="bg-background p-7 md:p-8">
-                        <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
-                            "Meu paciente vai sentir que é robô?"
-                        </h3>
-                        <p class="text-[14px] text-muted leading-[1.55]">
-                            A IA é treinada com a linguagem da sua clínica e se apresenta como secretária virtual da [Nome da Clínica]. Nos testes às cegas, 73% dos pacientes não percebem que não é humano. E quando a IA detecta dúvida fora do escopo, ela passa pra humano automaticamente, sem fazer o paciente repetir nada.
-                        </p>
-                    </div>
-
-                    <div class="bg-background p-7 md:p-8">
-                        <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
-                            "E quando a IA não souber responder?"
-                        </h3>
-                        <p class="text-[14px] text-muted leading-[1.55]">
-                            Handoff inteligente. A IA detecta exceções clínicas (sintomas graves, perguntas técnicas fora da especialidade, paciente irritado) e transfere pra sua secretária ou médico de plantão imediatamente, com o contexto completo da conversa já resumido.
-                        </p>
-                    </div>
-
-                    <div class="bg-background p-7 md:p-8">
-                        <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
-                            "LGPD? Dados clínicos sensíveis?"
-                        </h3>
-                        <p class="text-[14px] text-muted leading-[1.55]">
-                            Servidores no Brasil, criptografia em trânsito e em repouso, DPO designado, contratos com cláusula de operador de dados, logs de auditoria por usuário. Já passamos por due diligence de hospitais e operadoras &mdash; podemos compartilhar o termo de adequação na primeira call.
-                        </p>
-                    </div>
-
-                    <div class="bg-background p-7 md:p-8">
-                        <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
-                            "Já uso Feegow / iClinic / Doctoralia. Vai brigar?"
-                        </h3>
-                        <p class="text-[14px] text-muted leading-[1.55]">
-                            Não &mdash; integra. Tier 1 (Feegow, iClinic, Clínica nas Nuvens, Consultório Live, Clinicorp, Ninsaúde) é nativo via API aberta. Tier 2 (Memed, Doctoralia, ByDoctor, Shosp) é via parceria homologada. Se o seu sistema não tá nessa lista, nosso time de Desenvolvimento constrói a ponte em 2 a 4 semanas.
-                        </p>
-                    </div>
-
-                    <div class="bg-background p-7 md:p-8">
-                        <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
-                            "Quanto tempo até funcionar de verdade?"
-                        </h3>
-                        <p class="text-[14px] text-muted leading-[1.55]">
-                            48h pro onboarding técnico (conexão WhatsApp, importação da base, treinamento inicial da IA). 7 a 14 dias pra atingir performance plena, com seu Gestor de CRM dedicado calibrando o agente nas duas primeiras semanas. Resultado mensurável já no primeiro fechamento mensal.
-                        </p>
-                    </div>
-
-                    <div class="bg-background p-7 md:p-8">
-                        <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
-                            "E se eu não gostar?"
-                        </h3>
-                        <p class="text-[14px] text-muted leading-[1.55]">
-                            30 dias de teste com risco zero. Não gostou, não converteu, achou que não era pra sua clínica? Devolvemos integral. Sem fidelidade, sem multa, sem letra miúda. A gente prefere clínica feliz que cliente preso.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Bottom row · still have doubts -->
-                <div class="mt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 pt-8 border-t border-border">
-                    <p class="text-[15px] text-muted">
-                        Ainda tem dúvida? Cole no WhatsApp da nossa secretária IA &mdash; ela mesma responde.
-                    </p>
-                    <a href="#" class="inline-flex items-center gap-2 px-5 h-11 rounded-lg bg-foreground text-background hover:bg-foreground/90 text-[13px] font-medium transition-colors">
-                        <i data-lucide="message-circle" class="w-4 h-4" stroke-width="1.75"></i>
-                        Perguntar pra IA do Aios
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 11: PLANOS -->
-        <section id="planos" class="max-w-7xl mx-auto px-6 py-28 border-b border-border relative">
-            <div class="max-w-2xl mx-auto text-center">
-                <h2 class="font-sans font-semibold text-3xl md:text-4xl tracking-tight mb-4">Escolha a escala ideal.</h2>
-                <p class="text-muted text-[17px] leading-[1.55] mb-10">
-                    Do consultório solo até a operação multi-unidade, desenhamos o plano com você no WhatsApp. Sem self-service confuso, sem letra miúda.
-                </p>
-                <a href="https://wa.me/" class="inline-flex items-center gap-2.5 h-12 px-8 bg-accent text-background font-medium rounded-lg hover:bg-accent-hover btn-press transition-colors text-base">
-                    <i data-lucide="message-circle" class="w-5 h-5" stroke-width="1.75"></i>
-                    Falar com nossa equipe no WhatsApp
-                </a>
-            </div>
-        </section>
-
-        <!-- SECTION 12: FINAL CTA -->
-        <section id="final-cta" class="max-w-7xl mx-auto px-6 py-32 text-center relative">
-            <div class="ambient-glow-bottom"></div>
-            <div class="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
-                <h2 class="font-sans font-semibold text-3xl md:text-4xl tracking-tight leading-[1.1] mb-4">
-                    Agenda cheia,<br>
-                    <span class="text-accent">todos os meses.</span>
-                </h2>
-                <p class="text-xl text-muted font-medium mb-10">Cada lead ignorado é uma cadeira vazia amanhã.</p>
-
-                <p class="text-sm text-muted/70 max-w-md mx-auto mb-8 text-balance">
-                    Marque um diagnóstico gratuito. Em 30 minutos, mostramos o que está vazando da sua agenda e quanto disso o Aios fecha.
-                </p>
-
-                <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-8">
-                    <a href="https://wa.me/" class="w-full sm:w-auto h-11 px-8 bg-accent text-background font-medium rounded-lg hover:bg-accent-hover btn-press transition-colors text-base flex items-center justify-center">
-                        Agendar diagnóstico
-                    </a>
-                    <a href="https://wa.me/" class="w-full sm:w-auto h-11 px-8 bg-transparent border border-border text-foreground font-medium rounded-lg hover:border-accent hover:bg-surface btn-press transition-colors text-base flex items-center justify-center">
-                        Falar no WhatsApp
-                    </a>
-                </div>
-
-                <div class="font-mono text-[11px] uppercase tracking-wider text-muted flex flex-wrap justify-center gap-2 md:gap-4 divider-x-dots">
-                    <span class="flex items-center gap-1.5"><i data-lucide="zap" class="w-3.5 h-3.5"></i> IA treinada em 48h</span>
-                    <span class="hidden md:inline">·</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="credit-card" class="w-3.5 h-3.5"></i> Sem cartão de crédito</span>
-                    <span class="hidden md:inline">·</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="unlock" class="w-3.5 h-3.5"></i> Cancele quando quiser</span>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="border-t border-border bg-surface pb-12 pt-16 mt-20 relative z-10">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                <!-- Brand Col -->
-                <div class="md:col-span-1">
-                    <div class="flex items-center gap-2.5 mb-4">
-                        <img src="aios-logo.png" alt="AIOS" class="w-8 h-8 object-contain" />
-                        <span class="font-sans font-semibold tracking-tight text-lg">AIOS</span>
-                    </div>
-                    <p class="text-sm text-muted font-mono max-w-xs">Inteligência Artificial & CRM Enterprise injetados no ecossistema de clínicas particulares no Brasil.</p>
-                </div>
-                
-                <!-- Links -->
-                <div>
-                    <h3 class="font-mono text-xs uppercase tracking-widest text-foreground font-medium mb-4">Produto</h3>
-                    <ul class="space-y-3 text-sm text-muted">
-                        <li><a href="#" class="hover:text-accent transition-colors">Agente IA</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Kanban Automático</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Gestor de CRM</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Integrações (API)</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Preços</a></li>
-                    </ul>
-                </div>
-
-                 <div>
-                    <h3 class="font-mono text-xs uppercase tracking-widest text-foreground font-medium mb-4">Especialidades</h3>
-                    <ul class="space-y-3 text-sm text-muted font-mono text-[12px]">
-                        <li><a href="#" class="hover:text-accent transition-colors">Dermatologia</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Odontologia</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Oftalmologia</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Cardiologia</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Pediatria</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="font-mono text-xs uppercase tracking-widest text-foreground font-medium mb-4">Legal</h3>
-                    <ul class="space-y-3 text-sm text-muted">
-                        <li><a href="#" class="hover:text-accent transition-colors">Termos de Serviço</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Privacidade (LGPD)</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Documentação API</a></li>
-                        <li><a href="#" class="hover:text-accent transition-colors">Status do Sistema</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[11px] text-muted uppercase tracking-wider">
-                <p>&copy; 2026 AIOS SOFTWARE BRASIL. Todos os direitos reservados.</p>
-                <div class="flex items-center gap-4">
-                    <a href="#" class="hover:text-foreground">Twitter</a>
-                    <a href="#" class="hover:text-foreground">LinkedIn</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Initialize Icons -->
-    <script>
-        lucide.createIcons({
-            attrs: {
-                strokeWidth: 1.75
-            }
-        });
-    </script>
+ <!-- Ambient Architecture Background Layers -->
+ <div class="ambient-glow-top"></div>
+ <!-- noise overlay removed for light theme (would look like static on white) -->
+
+ <!-- Navigation -->
+ <nav class="fixed top-0 w-full border-b border-border bg-background/80 backdrop-blur-md z-50">
+ <div class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+ <a href="#" class="flex items-center gap-2.5">
+ <img src="aios-logo.png" alt="AIOS" class="w-7 h-7 object-contain" />
+ <span class="font-sans font-semibold tracking-tight text-lg">AIOS</span>
+ </a>
+ <div class="hidden md:flex items-center gap-6 text-sm font-mono tracking-wide text-muted">
+ <a href="#produto" class="hover:text-foreground transition-colors">Agente IA</a>
+ <a href="#crm" class="hover:text-foreground transition-colors">Gestor CRM</a>
+ <a href="#integracoes" class="hover:text-foreground transition-colors">Integrações</a>
+ </div>
+ <div class="flex items-center gap-4">
+ <a href="/login" class="hidden text-sm font-mono text-muted hover:text-foreground transition-colors sm:block">Login</a>
+ <a href="#final-cta" class="h-8 px-4 flex items-center text-xs font-mono bg-accent text-background rounded-md btn-press hover:bg-accent-hover transition-colors">Agendar</a>
+ </div>
+ </div>
+ </nav>
+
+ <main class="relative z-10 pt-14">
+ 
+ <!-- SECTION 1: HERO, asymmetric split, editorial-medical register -->
+ <section class="max-w-[1400px] mx-auto px-6 pt-24 md:pt-32 pb-20 relative animate-fade-in-up">
+
+ <!-- Asymmetric grid: 1.15fr (copy) | 1fr (mockup) at lg+, stacked at mobile -->
+ <div class="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 items-center">
+
+ <!-- LEFT: copy stack, strictly left-aligned -->
+ <div class="flex flex-col items-start text-left max-w-[640px]">
+
+ <!-- Eyebrow -->
+ <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-surface mb-8">
+ <div class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-soft"></div>
+ <span class="font-mono text-[11px] uppercase tracking-widest text-muted font-medium">94% dos brasileiros usam WhatsApp todos os dias</span>
+ </div>
+
+ <!-- Editorial headline · Bricolage Grotesque compressed -->
+ <h1 class="font-display text-[44px] sm:text-5xl md:text-[56px] lg:text-[60px] text-balance text-foreground">
+ Sua clínica atende.<br/>
+ O Aios <em class="not-italic text-accent">agenda.</em>
+ </h1>
+
+ <!-- Lead -->
+ <p class="mt-7 text-muted text-[17px] leading-[1.55] max-w-[55ch]">
+ CRM, agente IA e gestor humano dedicado para clínicas brasileiras. O Aios responde, qualifica e agenda cada paciente que chega no seu WhatsApp, 24 horas por dia.
+ </p>
+
+ <!-- Actions -->
+ <div class="mt-9 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+ <button class="h-11 px-6 bg-accent text-white font-medium rounded-lg hover:bg-accent-hover transition-colors flex items-center justify-center gap-2">
+ Ver a IA em ação
+ <i data-lucide="arrow-right" class="w-4 h-4" stroke-width="2"></i>
+ </button>
+ <button class="h-11 px-6 bg-transparent border border-border text-foreground font-medium rounded-lg hover:border-accent hover:bg-surface transition-colors flex items-center justify-center gap-2">
+ <i data-lucide="calendar" class="w-4 h-4 text-muted" stroke-width="2"></i>
+ Diagnóstico gratuito
+ </button>
+ </div>
+
+ <!-- Mini proof line · medical clinic count -->
+ <div class="mt-7 flex items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-muted">
+ <span class="flex -space-x-1.5">
+ <span class="w-5 h-5 rounded-full bg-accent/15 border border-accent/40"></span>
+ <span class="w-5 h-5 rounded-full bg-accent/25 border border-accent/40"></span>
+ <span class="w-5 h-5 rounded-full bg-accent/35 border border-accent/40"></span>
+ </span>
+ <span>+340 clínicas operando</span>
+ </div>
+ </div>
+
+ <!-- RIGHT: mockup with grid-breaking overflow + overlapping badges -->
+ <div class="relative lg:translate-x-4 xl:translate-x-8 lg:scale-[1.04] origin-left">
+
+ <!-- Soft cyan ambient halo, asymmetric (right side) · calibrated to accent saturation (36%) -->
+ <div class="absolute -inset-8 pointer-events-none" style="background: radial-gradient(ellipse 60% 60% at 70% 40%, hsla(187, 72%, 36%, 0.08) 0%, transparent 70%);"></div>
+
+ <!-- iMac + Studio mockup · flat-by-default, paper resting on the desk -->
+ <div class="relative">
+ <img src="assets/screens/hero-mockup.png" alt="Plataforma Aios em operação, inbox unificado, agente IA e CRM" class="w-full h-auto block" loading="eager" />
+ </div>
+
+ <!-- Floating agent badge (top-left, overlapping out) -->
+ <div class="hidden md:flex absolute -left-4 lg:-left-8 top-10 lg:top-16 items-center gap-2.5 pl-2.5 pr-4 py-2 rounded-xl bg-background border border-border shadow-card animate-fade-in-up" style="animation-delay: 380ms;">
+ <div class="w-8 h-8 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center">
+ <i data-lucide="bot" class="w-4 h-4 text-accent" stroke-width="1.75"></i>
+ </div>
+ <div>
+ <div class="font-mono text-[9px] uppercase tracking-widest text-muted">Agente IA</div>
+ <div class="text-[12px] font-medium text-foreground flex items-center gap-1.5">
+ <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-soft"></span>
+ 12 atendendo agora
+ </div>
+ </div>
+ </div>
+
+ <!-- Floating agenda badge (bottom-right) -->
+ <div class="hidden md:flex absolute -right-3 lg:-right-6 bottom-12 lg:bottom-20 items-center gap-2.5 pl-2.5 pr-4 py-2 rounded-xl bg-background border border-border shadow-card animate-fade-in-up" style="animation-delay: 540ms;">
+ <div class="w-8 h-8 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center">
+ <i data-lucide="calendar-check" class="w-4 h-4 text-accent" stroke-width="1.75"></i>
+ </div>
+ <div>
+ <div class="font-mono text-[9px] uppercase tracking-widest text-muted">Hoje</div>
+ <div class="text-[12px] font-medium text-foreground">+47 consultas agendadas</div>
+ </div>
+ </div>
+
+ <!-- Floating metric pill (mid-right, deepest overlap) -->
+ <div class="hidden lg:flex absolute right-2 top-1/2 -translate-y-1/2 translate-x-1/3 flex-col px-4 py-3 rounded-xl bg-foreground text-background shadow-[0_20px_40px_-12px_rgba(20,24,30,0.32)] animate-fade-in-up" style="animation-delay: 700ms;">
+ <span class="font-mono text-[9px] uppercase tracking-widest text-background/60">No-show</span>
+ <span class="font-display text-3xl text-background mt-0.5" style="font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800; letter-spacing: -0.05em;">−68%</span>
+ </div>
+ </div>
+ </div>
+
+ <!-- Stats rail · full-width hairline grid, breaking out of the split above -->
+ <div class="mt-24 lg:mt-28 grid grid-cols-1 sm:grid-cols-3 border-y border-border">
+ <div class="px-6 py-7 sm:border-r border-border">
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-2.5">Aumento em agendamentos</div>
+ <div class="flex items-baseline gap-2">
+ <span class="font-display text-5xl text-foreground" style="font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800; letter-spacing: -0.06em;">+40%</span>
+ <span class="font-mono text-[11px] text-muted">primeiros 90 dias</span>
+ </div>
+ </div>
+ <div class="px-6 py-7 sm:border-r border-border border-t sm:border-t-0">
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-2.5">Redução de no-show</div>
+ <div class="flex items-baseline gap-2">
+ <span class="font-display text-5xl text-foreground" style="font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800; letter-spacing: -0.06em;">−68%</span>
+ <span class="font-mono text-[11px] text-muted">lembretes ativos</span>
+ </div>
+ </div>
+ <div class="px-6 py-7 border-t sm:border-t-0">
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-2.5">Atendimento ativo</div>
+ <div class="flex items-baseline gap-2">
+ <span class="font-display text-5xl text-foreground" style="font-variation-settings: 'wdth' 100, 'opsz' 96, 'wght' 800; letter-spacing: -0.06em;">24/7</span>
+ <span class="font-mono text-[11px] text-muted">sem feriado</span>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- SECTION 2: SEGMENTS BAND (Marquee) -->
+ <section class="border-y border-border bg-surface overflow-hidden py-4 flex items-center">
+ <div class="flex whitespace-nowrap animate-marquee">
+ <!-- Group 1 -->
+ <div class="flex items-center gap-8 px-4 font-mono text-sm tracking-widest text-muted/60 uppercase">
+ <span>Dermatologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Odontologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Estética Avançada</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Oftalmologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Pediatria</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Cardiologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Psiquiatria</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Fisioterapia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Ortopedia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Ginecologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ </div>
+ <!-- Duplicate for seamless loop -->
+ <div class="flex items-center gap-8 px-4 font-mono text-sm tracking-widest text-muted/60 uppercase">
+ <span>Dermatologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Odontologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Estética Avançada</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Oftalmologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Pediatria</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Cardiologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Psiquiatria</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Fisioterapia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Ortopedia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ <span>Ginecologia</span><span class="w-1 h-1 rounded-full bg-border"></span>
+ </div>
+ </div>
+ </section>
+
+ <!-- SECTION 2.5: AGITAÇÃO, PAS pain block with hard numbers -->
+ <section class="border-b border-border bg-surface relative overflow-hidden">
+ <div class="max-w-[1400px] mx-auto px-6 py-24 md:py-28">
+
+ <!-- Header asymmetric -->
+ <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
+ <div class="lg:col-span-7">
+ <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-background text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
+ <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
+ A real é amarga
+ </span>
+ <h2 class="text-4xl md:text-5xl lg:text-[64px] text-foreground leading-[0.96]">
+ Cada paciente que some<br/>
+ no WhatsApp <span class="text-accent">já comprou</span><br/>
+ de alguém.
+ </h2>
+ </div>
+ <div class="lg:col-span-5">
+ <p class="text-muted text-[17px] leading-[1.6]">
+ Não é falta de paciente. É falta de resposta. Enquanto sua recepção liga, agenda, lembra, atende presencial e ainda tenta voltar pro WhatsApp, três outras clínicas já fecharam a consulta que era sua.
+ </p>
+ </div>
+ </div>
+
+ <!-- 3 pain stats, full-width hairline grid -->
+ <div class="grid grid-cols-1 md:grid-cols-3 border-y border-border bg-background">
+ <!-- Pain 1: Response time -->
+ <div class="p-8 md:p-10 md:border-r border-border relative">
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-4">Velocidade · 01</div>
+ <div class="font-display text-foreground mb-4" style="font-size: 56px; line-height: 0.96; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">
+ 60<span class="text-accent">%</span>
+ </div>
+ <p class="text-[15px] text-foreground leading-[1.5] mb-3 font-medium">
+ Uma hora de demora no WhatsApp e o paciente já escolheu o concorrente.
+ </p>
+ <p class="text-[13px] text-muted leading-[1.55]">
+ Lead frio depois de 60 minutos tem 60% menos chance de fechar, sua recepção atende em quanto tempo, hoje?
+ </p>
+ </div>
+
+ <!-- Pain 2: Money left on the table -->
+ <div class="p-8 md:p-10 md:border-r border-border border-t md:border-t-0 relative">
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-4">Receita · 02</div>
+ <div class="font-display text-foreground mb-4" style="font-size: 56px; line-height: 0.96; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">
+ R$&nbsp;32.450
+ </div>
+ <p class="text-[15px] text-foreground leading-[1.5] mb-3 font-medium">
+ Em média por mês, deixados na mesa por lead frio.
+ </p>
+ <p class="text-[13px] text-muted leading-[1.55]">
+ Cálculo simples: ticket médio R$ 1.840 × 17,6 leads perdidos / mês na clínica brasileira média de 1 a 3 médicos.
+ </p>
+ </div>
+
+ <!-- Pain 3: Weekend dead zone -->
+ <div class="p-8 md:p-10 border-t md:border-t-0 relative">
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-4">Cobertura · 03</div>
+ <div class="font-display text-foreground mb-4" style="font-size: 56px; line-height: 0.96; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">
+ 14<span class="text-accent">%</span>
+ </div>
+ <p class="text-[15px] text-foreground leading-[1.5] mb-3 font-medium">
+ Das mensagens de sábado e domingo são respondidas.
+ </p>
+ <p class="text-[13px] text-muted leading-[1.55]">
+ E é justamente fim de semana que o paciente pesquisa preço, agenda particular, fecha estética. Sua secretária dorme. O concorrente, não.
+ </p>
+ </div>
+ </div>
+
+ <!-- Tagline transition -->
+ <div class="mt-12 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-muted shrink-0">A boa notícia</span>
+ <div class="flex-1 h-px bg-border"></div>
+ <p class="text-[17px] md:text-xl text-foreground font-medium leading-[1.4]" style="font-family: 'Bricolage Grotesque'; font-weight: 700; font-variation-settings: 'wdth' 100, 'wght' 700; letter-spacing: -0.02em;">
+ Tudo isso vira problema de software. E a gente resolve software.
+ </p>
+ </div>
+ </div>
+ </section>
+
+ <!-- SECTION 3: O AIOS É 3 EM 1 (overview / clarity) -->
+ <section class="max-w-[1400px] mx-auto px-6 py-24 md:py-28 border-b border-border">
+ <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end mb-14">
+ <div class="lg:col-span-7">
+ <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-surface text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
+ <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
+ O que é o Aios
+ </span>
+ <h2 class="text-4xl md:text-5xl lg:text-[64px] text-foreground leading-[0.96]">
+ Três produtos<br/>
+ em uma operação só.
+ </h2>
+ </div>
+ <div class="lg:col-span-5">
+ <p class="text-muted text-[17px] leading-[1.6]">
+ A maioria das clínicas usa um sistema pra agenda, outro pra WhatsApp, outro pra anúncios, e ainda tenta amarrar tudo com uma secretária sobrecarregada. O Aios entrega o conjunto inteiro, software, IA e gente, trabalhando junto.
+ </p>
+ </div>
+ </div>
+
+ <!-- 3 columns with progressive depth -->
+ <div class="grid grid-cols-1 lg:grid-cols-3 border border-border rounded-2xl overflow-hidden bg-surface">
+
+ <!-- Card 1: CRM -->
+ <div class="p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-border bg-background flex flex-col gap-5">
+ <div class="flex items-center justify-between">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-muted">01 · Software</span>
+ <i data-lucide="database" class="w-5 h-5 text-foreground" stroke-width="1.75"></i>
+ </div>
+ <h3 class="text-xl text-foreground" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.03em;">CRM com Kanban Automático</h3>
+ <p class="text-[14px] text-muted leading-[1.55]">
+ Inbox unificado, funil que se mexe sozinho, segmentação por etiqueta, campanhas via API Oficial WhatsApp, mensagens agendadas e rápidas. O sistema operacional da sua clínica.
+ </p>
+ <ul class="mt-auto space-y-1.5 font-mono text-[11px] text-muted">
+ <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>WhatsApp · agenda · CRM</li>
+ <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Dashboard em tempo real</li>
+ <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Atribuição Meta + Google</li>
+ </ul>
+ </div>
+
+ <!-- Card 2: AI -->
+ <div class="p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-border bg-background flex flex-col gap-5">
+ <div class="flex items-center justify-between">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-muted">02 · IA</span>
+ <i data-lucide="bot" class="w-5 h-5 text-foreground" stroke-width="1.75"></i>
+ </div>
+ <h3 class="text-xl text-foreground" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.03em;">Agente IA personalizado</h3>
+ <p class="text-[14px] text-muted leading-[1.55]">
+ Treinado com seus protocolos, procedimentos, convênios e tabela de preços. Responde em segundos, qualifica o paciente, agenda na sua agenda e devolve para humano quando precisa.
+ </p>
+ <ul class="mt-auto space-y-1.5 font-mono text-[11px] text-muted">
+ <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Resposta &lt; 1 segundo · 24/7</li>
+ <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Triagem clínica + sumarização</li>
+ <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Handoff inteligente para secretária</li>
+ </ul>
+ </div>
+
+ <!-- Card 3: Humans (the differentiator), gets a tinted bg to call attention -->
+ <div class="p-8 lg:p-10 bg-foreground text-background relative flex flex-col gap-5">
+ <div class="absolute top-0 right-0 px-3 py-1.5 bg-accent text-white font-mono text-[9px] uppercase tracking-widest rounded-bl-lg">Diferencial Aios</div>
+ <div class="flex items-center justify-between mt-4">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-background/60">03 · Time humano</span>
+ <i data-lucide="users-round" class="w-5 h-5 text-background" stroke-width="1.75"></i>
+ </div>
+ <h3 class="text-xl text-background" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.03em;">Gestor de CRM + Desenvolvimento + Especialistas em IA</h3>
+ <p class="text-[14px] text-background/75 leading-[1.55]">
+ Não é só ferramenta. Um gestor humano dedicado opera o seu CRM, nosso squad de devs codifica integrações sob medida, e especialistas em IA ajustam o agente da sua clínica continuamente.
+ </p>
+ <ul class="mt-auto space-y-1.5 font-mono text-[11px] text-background/70">
+ <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Cadência SEG · QUA · SEX</li>
+ <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>Integrações em dias, não meses</li>
+ <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-accent"></span>IA treinada com seus protocolos</li>
+ </ul>
+ </div>
+ </div>
+ </section>
+
+ <!-- SECTION 4: AGENTE IA -->
+ <section id="produto" class="max-w-7xl mx-auto px-6 py-28 border-b border-border">
+ <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+ <div>
+ <h2 class="font-sans font-semibold text-3xl md:text-4xl tracking-tight leading-tight mb-6">
+ Seu novo recepcionista que <span class="text-muted">nunca dorme.</span>
+ </h2>
+ <p class="text-muted text-base mb-10 leading-relaxed">
+ Esqueça a fila de espera no WhatsApp. A inteligência artificial responde instantaneamente, filtra curiosos, entende a necessidade médica e envia o link direto para pagamento ou agendamento na sua agenda.
+ </p>
+ 
+ <div class="space-y-6">
+ <div class="flex gap-4">
+ <div class="w-10 h-10 rounded border border-border bg-surface flex items-center justify-center shrink-0"><i data-lucide="bot" class="w-5 h-5 text-foreground"></i></div>
+ <div>
+ <h3 class="font-medium text-[15px] mb-1">Resposta em &lt; 1 segundo</h3>
+ <p class="text-sm text-muted">O paciente enviou oi, a IA apresenta a clínica imediatamente.</p>
+ </div>
+ </div>
+ <div class="flex gap-4">
+ <div class="w-10 h-10 rounded border border-border bg-surface flex items-center justify-center shrink-0"><i data-lucide="brain" class="w-5 h-5 text-accent"></i></div>
+ <div>
+ <h3 class="font-medium text-[15px] mb-1 text-accent">Aprende seus protocolos</h3>
+ <p class="text-sm text-muted">Treinada com seu FAQ, valores, procedimentos e regras da clínica.</p>
+ </div>
+ </div>
+ <div class="flex gap-4">
+ <div class="w-10 h-10 rounded border border-border bg-surface flex items-center justify-center shrink-0"><i data-lucide="target" class="w-5 h-5 text-foreground"></i></div>
+ <div>
+ <h3 class="font-medium text-[15px] mb-1">Qualifica e Agenda</h3>
+ <p class="text-sm text-muted">Extrai dados estruturados (convênio, sintomas) e move para o funil.</p>
+ </div>
+ </div>
+ <div class="flex gap-4">
+ <div class="w-10 h-10 rounded border border-border bg-surface flex items-center justify-center shrink-0"><i data-lucide="rotate-ccw" class="w-5 h-5 text-foreground"></i></div>
+ <div>
+ <h3 class="font-medium text-[15px] mb-1">Handoff Inteligente</h3>
+ <p class="text-sm text-muted">Se a IA trava numa exceção médica, ela notifica a secretária humana.</p>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Real product screenshot · the AI agent running inside Aios -->
+ <div class="relative">
+ <div class="rounded-xl border border-border bg-surface overflow-hidden shadow-card">
+ <img src="assets/screens/Atendimento_02.png" alt="Atendimento real no Aios, agente IA conversando, qualificando e movendo para o funil" class="w-full h-auto block" loading="lazy" />
+ </div>
+ <!-- Floating proof badge -->
+ <div class="hidden md:flex absolute -left-3 lg:-left-6 -bottom-4 items-center gap-2.5 pl-2.5 pr-4 py-2 rounded-xl bg-background border border-border shadow-card">
+ <div class="w-8 h-8 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center">
+ <i data-lucide="message-square" class="w-4 h-4 text-accent" stroke-width="1.75"></i>
+ </div>
+ <div>
+ <div class="font-mono text-[9px] uppercase tracking-widest text-muted">Inbox ao vivo</div>
+ <div class="text-[12px] font-medium text-foreground flex items-center gap-1.5">
+ <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-soft"></span>
+ IA atendendo agora
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- SECTION 6: GESTOR DE CRM DEDICADO, narrative peak before features -->
+ <section id="crm" class="max-w-7xl mx-auto px-6 py-28 border-b border-border">
+
+ <div class="mb-12">
+ <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-surface border border-accent/20 mb-6">
+ <i data-lucide="shield-check" class="w-3.5 h-3.5 text-accent"></i>
+ <span class="font-mono text-[10px] uppercase tracking-wider text-accent font-medium">Exclusivo Aios</span>
+ </div>
+ <h2 class="font-sans font-semibold text-3xl md:text-5xl tracking-tight mb-4">Seu Gestor de CRM dedicado.</h2>
+ <p class="text-muted text-base max-w-2xl text-balance">
+ Um profissional interno nosso, totalmente dedicado à sua clínica. Configura, monitora, otimiza e gera relatórios para sua equipe só precisar atender o paciente.
+ </p>
+ </div>
+
+ <div class="surface-borders rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 shadow-glass border border-border">
+
+ <!-- Left Panel -->
+ <div class="md:col-span-5 p-8 flex flex-col justify-between">
+ <div>
+ <ul class="space-y-6 font-mono text-sm">
+ <li class="flex items-start gap-3">
+ <span class="bg-surface border border-border text-foreground px-2 py-0.5 rounded text-xs font-medium w-12 text-center shrink-0">SEG</span>
+ <span class="text-muted mt-0.5">Planejamento e setup de campanhas na base.</span>
+ </li>
+ <li class="flex items-start gap-3">
+ <span class="bg-surface border border-border text-foreground px-2 py-0.5 rounded text-xs font-medium w-12 text-center shrink-0">QUA</span>
+ <span class="text-muted mt-0.5">Otimização fina (ajuste de prompts da IA).</span>
+ </li>
+ <li class="flex items-start gap-3">
+ <span class="bg-surface border border-border text-foreground px-2 py-0.5 rounded text-xs font-medium w-12 text-center shrink-0">SEX</span>
+ <span class="text-foreground mt-0.5">Relatório executivo entregue no WhatsApp.</span>
+ </li>
+ <li class="flex items-start gap-3">
+ <span class="bg-accent/10 border border-accent/20 text-accent px-2 py-0.5 rounded text-xs font-medium w-12 text-center shrink-0">24/7</span>
+ <span class="text-muted mt-0.5">Monitoramento ativo de quedas ou gaps.</span>
+ </li>
+ </ul>
+ </div>
+ <div class="grid grid-cols-3 gap-4 pt-10 mt-10 border-t border-border">
+ <div>
+ <div class="text-2xl font-semibold mb-1 text-foreground">48h</div>
+ <div class="text-[10px] font-mono text-muted uppercase tracking-wide">Onboarding</div>
+ </div>
+ <div>
+ <div class="text-2xl font-semibold mb-1">4×</div>
+ <div class="text-[10px] font-mono text-muted uppercase tracking-wide">Relat. / Mês</div>
+ </div>
+ <div>
+ <div class="text-2xl font-semibold mb-1 text-aios-green">100%</div>
+ <div class="text-[10px] font-mono text-aios-green uppercase tracking-wide">Humano</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Right Top Panel (Chat Preview) -->
+ <div class="md:col-span-7 border-b border-border p-8 flex bg-surface">
+ <div class="w-full max-w-md mx-auto bg-background border border-border rounded-xl flex flex-col overflow-hidden">
+ <div class="h-10 border-b border-border bg-surface flex items-center px-4 gap-2">
+ <div class="w-5 h-5 rounded bg-surface-sec border border-border flex items-center justify-center font-mono text-[9px]">G</div>
+ <span class="text-xs font-mono text-foreground font-medium">Gestor Aios</span>
+ </div>
+ <div class="p-5 flex flex-col gap-4">
+ <div class="bg-surface-sec border border-border p-3 rounded-lg rounded-tl-sm text-sm text-muted">
+ Bom dia, Dr. Ricardo. Identifiquei no painel que <strong class="text-foreground font-medium">34% dos pacientes</strong> desistem na etapa de orçamento da Ortodontia.
+ </div>
+ <div class="bg-accent/10 border border-accent/20 p-3 rounded-lg rounded-tl-sm text-sm text-foreground">
+ Sugiro ativarmos um <span class="text-accent">follow-up automático de 48h</span> via WhatsApp oferecendo parcelamento. Posso configurar isso hoje à tarde?
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Right Bottom Panel (Grid) -->
+ <div class="md:col-span-7 grid grid-cols-2">
+ <div class="p-6 border-r border-border card-hover">
+ <i data-lucide="zap" class="w-5 h-5 text-muted mb-4"></i>
+ <h3 class="font-medium text-sm text-foreground mb-1">Execução Rápida</h3>
+ <p class="text-[13px] text-muted">Seu time pede a mudança, nosso gestor aperta os botões no CRM.</p>
+ </div>
+ <div class="p-6 card-hover">
+ <i data-lucide="bar-chart-3" class="w-5 h-5 text-muted mb-4"></i>
+ <h3 class="font-medium text-sm text-foreground mb-1">Relatórios Limpos</h3>
+ <p class="text-[13px] text-muted">Métricas de agendamento traduzidas para a linguagem do médico.</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- Supporting screenshot: real team management UI -->
+ <div class="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+ <div class="lg:col-span-5">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-accent">Acesso ao painel</span>
+ <h3 class="font-sans font-semibold text-xl md:text-2xl mt-3 mb-3 tracking-tight text-foreground">
+ Seu gestor opera o painel real do Aios, não um chat genérico.
+ </h3>
+ <p class="text-[14px] text-muted leading-relaxed">
+ Criação de equipes, atribuição de roles, configuração de campanhas, ajuste de prompts da IA. Tudo o que sua clínica precisa, executado por quem entende a ferramenta de cabo a rabo.
+ </p>
+ </div>
+ <div class="lg:col-span-7">
+ <div class="rounded-xl border border-border bg-surface overflow-hidden shadow-card">
+ <img src="assets/screens/EquipeCriacao.png" alt="Painel real do Aios, criação e gestão de equipes" class="w-full h-auto block" loading="lazy" />
+ </div>
+ </div>
+ </div>
+
+ <!-- Second proof row: Kanban CRM the gestor operates -->
+ <div class="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+ <div class="lg:col-span-7 lg:order-1 order-2">
+ <div class="rounded-xl border border-border bg-surface overflow-hidden shadow-card">
+ <img src="assets/screens/funil_vendas.jpg" alt="Funil de vendas em Kanban, Prospecção, Contrato, Visita, Reclamação, Retenção" class="w-full h-auto block" loading="lazy" />
+ </div>
+ </div>
+ <div class="lg:col-span-5 lg:order-2 order-1">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-accent">Funil em tempo real</span>
+ <h3 class="font-sans font-semibold text-xl md:text-2xl mt-3 mb-3 tracking-tight text-foreground">
+ Cada paciente, em uma etapa visível.
+ </h3>
+ <p class="text-[14px] text-muted leading-relaxed">
+ Prospecção, Contrato, Visita, Retenção. O Kanban mostra onde cada lead está parado, e o gestor age antes da agenda esfriar. Ticket médio, valor parado, dias em atraso, tudo em uma tela.
+ </p>
+ </div>
+ </div>
+ </section>
+
+ <!-- SECTION 8: INTEGRAÇÕES BRASILEIRAS -->
+ <section id="integracoes" class="py-28 border-b border-border bg-surface-sec/30">
+ <div class="max-w-[1400px] mx-auto px-6">
+
+ <!-- Asymmetric header -->
+ <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
+ <div class="lg:col-span-7">
+ <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-background text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
+ <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
+ Sem migração
+ </span>
+ <h2 class="text-4xl md:text-5xl lg:text-[60px] text-foreground leading-[0.96]">
+ Liga no seu sistema.<br/>
+ <span class="text-accent">Não substitui.</span>
+ </h2>
+ </div>
+ <div class="lg:col-span-5">
+ <p class="text-muted text-[17px] leading-[1.6]">
+ O Aios entra como uma camada por cima do seu prontuário, da sua agenda e do seu faturamento. Tudo que já está rodando continua igual. O Aios só faz o que faltava.
+ </p>
+ </div>
+ </div>
+
+ <!-- Tier 1: Sistemas de gestão clínica -->
+ <div class="mb-12">
+ <div class="mb-5 flex items-center justify-between border-b border-border pb-3">
+ <div class="flex items-center gap-3">
+ <span class="font-mono text-xs uppercase tracking-widest text-foreground font-medium">Sistemas de gestão clínica</span>
+ <span class="font-mono text-[9px] uppercase tracking-widest text-muted hidden sm:inline">API nativa</span>
+ </div>
+ <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-accent/10 border border-accent/20 font-mono text-[9px] text-accent uppercase">
+ <span class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse-soft"></span>
+ Conectado
+ </span>
+ </div>
+
+ <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+ <div class="bg-background border border-border rounded-xl p-4 flex flex-col items-start gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-9 h-9 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center font-display text-accent text-base" style="font-variation-settings: 'wdth' 100, 'wght' 800;">F</div>
+ <div class="font-sans font-medium text-[13px] text-foreground leading-tight">Feegow</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-4 flex flex-col items-start gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-9 h-9 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center font-display text-accent text-base" style="font-variation-settings: 'wdth' 100, 'wght' 800;">i</div>
+ <div class="font-sans font-medium text-[13px] text-foreground leading-tight">iClinic</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-4 flex flex-col items-start gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-9 h-9 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center font-display text-accent text-base" style="font-variation-settings: 'wdth' 100, 'wght' 800;">C</div>
+ <div class="font-sans font-medium text-[13px] text-foreground leading-tight">Clínica nas Nuvens</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-4 flex flex-col items-start gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-9 h-9 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center font-display text-accent text-base" style="font-variation-settings: 'wdth' 100, 'wght' 800;">C</div>
+ <div class="font-sans font-medium text-[13px] text-foreground leading-tight">Clinicorp</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-4 flex flex-col items-start gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-9 h-9 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center font-display text-accent text-base" style="font-variation-settings: 'wdth' 100, 'wght' 800;">N</div>
+ <div class="font-sans font-medium text-[13px] text-foreground leading-tight">Ninsaúde Apolo</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-4 flex flex-col items-start gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-9 h-9 rounded-lg bg-accent-soft border border-accent/25 flex items-center justify-center font-display text-accent text-base" style="font-variation-settings: 'wdth' 100, 'wght' 800;">C</div>
+ <div class="font-sans font-medium text-[13px] text-foreground leading-tight">Consultório Live</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Tier 2: Receituário & Pagamentos in two columns -->
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">
+ <div>
+ <div class="mb-5 flex items-center justify-between border-b border-border pb-3">
+ <span class="font-mono text-xs uppercase tracking-widest text-foreground font-medium">Receituário e marketplaces</span>
+ <span class="font-mono text-[9px] uppercase tracking-widest text-muted">Parceria</span>
+ </div>
+ <div class="grid grid-cols-2 gap-3">
+ <div class="bg-background border border-border rounded-xl p-3.5 flex items-center gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-8 h-8 rounded-md bg-surface border border-border flex items-center justify-center font-display text-foreground text-sm" style="font-variation-settings: 'wdth' 100, 'wght' 800;">M</div>
+ <div class="font-sans font-medium text-[13px] text-foreground">Memed</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-3.5 flex items-center gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-8 h-8 rounded-md bg-surface border border-border flex items-center justify-center font-display text-foreground text-sm" style="font-variation-settings: 'wdth' 100, 'wght' 800;">D</div>
+ <div class="font-sans font-medium text-[13px] text-foreground">Doctoralia</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-3.5 flex items-center gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-8 h-8 rounded-md bg-surface border border-border flex items-center justify-center font-display text-foreground text-sm" style="font-variation-settings: 'wdth' 100, 'wght' 800;">B</div>
+ <div class="font-sans font-medium text-[13px] text-foreground">ByDoctor</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-3.5 flex items-center gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-8 h-8 rounded-md bg-surface border border-border flex items-center justify-center font-display text-foreground text-sm" style="font-variation-settings: 'wdth' 100, 'wght' 800;">S</div>
+ <div class="font-sans font-medium text-[13px] text-foreground">Shosp</div>
+ </div>
+ </div>
+ </div>
+
+ <div>
+ <div class="mb-5 flex items-center justify-between border-b border-border pb-3">
+ <span class="font-mono text-xs uppercase tracking-widest text-foreground font-medium">Pagamentos e marketing</span>
+ <span class="font-mono text-[9px] uppercase tracking-widest text-muted">Plug and play</span>
+ </div>
+ <div class="grid grid-cols-2 gap-3">
+ <div class="bg-background border border-border rounded-xl p-3.5 flex items-center gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-8 h-8 rounded-md bg-surface border border-border flex items-center justify-center font-display text-foreground text-sm" style="font-variation-settings: 'wdth' 100, 'wght' 800;">A</div>
+ <div class="font-sans font-medium text-[13px] text-foreground">Asaas</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-3.5 flex items-center gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-8 h-8 rounded-md bg-surface border border-border flex items-center justify-center font-display text-foreground text-sm" style="font-variation-settings: 'wdth' 100, 'wght' 800;">S</div>
+ <div class="font-sans font-medium text-[13px] text-foreground">Stripe</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-3.5 flex items-center gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-8 h-8 rounded-md bg-surface border border-border flex items-center justify-center font-display text-foreground text-sm" style="font-variation-settings: 'wdth' 100, 'wght' 800;">P</div>
+ <div class="font-sans font-medium text-[13px] text-foreground">Pagar.me</div>
+ </div>
+ <div class="bg-background border border-border rounded-xl p-3.5 flex items-center gap-3 hover:border-accent/40 transition-colors">
+ <div class="w-8 h-8 rounded-md bg-surface border border-border flex items-center justify-center font-display text-foreground text-sm" style="font-variation-settings: 'wdth' 100, 'wght' 800;">M</div>
+ <div class="font-sans font-medium text-[13px] text-foreground">Meta Ads</div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Ecosystem universal: small horizontal band -->
+ <div class="mb-12 pt-6 border-t border-border">
+ <div class="mb-4 flex items-center gap-3">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-muted font-medium">Ecossistema universal</span>
+ <span class="w-px h-3 bg-border"></span>
+ <span class="font-mono text-[10px] text-muted">qualquer ferramenta com webhook ou API REST</span>
+ </div>
+ <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] uppercase tracking-widest text-foreground">
+ <span class="px-2.5 py-1 rounded-md border border-border bg-background">WhatsApp Business API</span>
+ <span class="px-2.5 py-1 rounded-md border border-border bg-background">Google Calendar</span>
+ <span class="px-2.5 py-1 rounded-md border border-border bg-background">Zapier</span>
+ <span class="px-2.5 py-1 rounded-md border border-border bg-background">n8n</span>
+ <span class="px-2.5 py-1 rounded-md border border-border bg-background">Make</span>
+ <span class="px-2.5 py-1 rounded-md border border-border bg-background">Webhooks REST</span>
+ </div>
+ </div>
+
+ <!-- Bottom: custom integrations CTA -->
+ <div class="pt-8 border-t border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+ <p class="text-[14px] text-muted max-w-xl">
+ Seu sistema não está na lista? Nosso time de Desenvolvimento constrói a ponte em 2 a 4 semanas, sem custo extra no plano Multi-Unidade.
+ </p>
+ <a href="#final-cta" class="inline-flex items-center gap-2 px-5 h-11 rounded-lg border border-accent/40 bg-accent/10 hover:bg-accent/15 hover:border-accent/60 text-accent text-[13px] font-medium transition-colors shrink-0">
+ <i data-lucide="git-branch" class="w-4 h-4" stroke-width="1.75"></i>
+ Pedir integração custom
+ </a>
+ </div>
+ </div>
+ </section>
+
+ <!-- SECTION 9: TIME ESPECIALIZADO -->
+ <section id="time" class="max-w-[1400px] mx-auto px-6 py-28 border-b border-border relative overflow-hidden">
+ <!-- Asymmetric header, left aligned, no center -->
+ <div class="grid lg:grid-cols-12 gap-10 items-end mb-14 relative z-10">
+ <div class="lg:col-span-7">
+ <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-accent/30 bg-accent/10 text-[10px] font-mono text-accent uppercase tracking-widest mb-6">
+ <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
+ Diferencial Aios
+ </span>
+ <h2 class="text-4xl md:text-5xl lg:text-[60px] text-foreground leading-[0.96]">
+ Não é só software.<br/>
+ <span class="text-accent">É um time especializado</span><br/>
+ dentro da sua clínica.
+ </h2>
+ </div>
+ <div class="lg:col-span-5">
+ <p class="text-muted text-[17px] leading-[1.6]">
+ Você não compra uma ferramenta solta. Contrata três especialistas que operam como extensão da sua equipe, sem fricção de contratação, sem CLT, sem treinamento. Gestor de CRM, Desenvolvimento e especialistas em IA dentro da assinatura.
+ </p>
+ </div>
+ </div>
+
+ <!-- 3 specialist columns (from old S8.5) -->
+ <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border rounded-2xl overflow-hidden relative z-10">
+
+ <!-- 1. Gestor de CRM -->
+ <div class="bg-background p-7 flex flex-col gap-4 hover:bg-surface transition-colors">
+ <div class="flex items-start justify-between">
+ <div class="w-11 h-11 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center">
+ <i data-lucide="user-cog" class="w-5 h-5 text-accent" stroke-width="1.75"></i>
+ </div>
+ <span class="font-mono text-[10px] text-muted uppercase tracking-widest">01 · Gestão</span>
+ </div>
+ <div>
+ <h3 class="font-sans text-[19px] text-foreground mb-1.5" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">Gestor de CRM Humano</h3>
+ <p class="text-[13px] text-muted leading-relaxed">
+ Um profissional interno nosso, dedicado à sua clínica. Configura, monitora, otimiza e gera relatórios. Sua equipe só precisa atender o paciente.
+ </p>
+ </div>
+ <div class="mt-2 space-y-2 pt-4 border-t border-border">
+ <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Cadência semanal SEG/QUA/SEX</span></div>
+ <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Monitoramento ativo todo dia</span></div>
+ <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Relatório executivo mensal</span></div>
+ </div>
+ </div>
+
+ <!-- 2. Time de Desenvolvimento -->
+ <div class="bg-background p-7 flex flex-col gap-4 hover:bg-surface transition-colors">
+ <div class="flex items-start justify-between">
+ <div class="w-11 h-11 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center">
+ <i data-lucide="code-2" class="w-5 h-5 text-accent" stroke-width="1.75"></i>
+ </div>
+ <span class="font-mono text-[10px] text-muted uppercase tracking-widest">02 · Engenharia</span>
+ </div>
+ <div>
+ <h3 class="font-sans text-[19px] text-foreground mb-1.5" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">Time de Desenvolvimento</h3>
+ <p class="text-[13px] text-muted leading-relaxed">
+ Precisa de uma integração que ainda não existe? Nosso squad codifica em dias, não meses. Já conectamos Feegow, iClinic, Memed, ERPs hospitalares e até planilhas legacy.
+ </p>
+ </div>
+ <div class="mt-2 space-y-2 pt-4 border-t border-border">
+ <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Integrações sob medida</span></div>
+ <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>API Aios completa e documentada</span></div>
+ <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Webhooks e automações low-code</span></div>
+ </div>
+ </div>
+
+ <!-- 3. Especialistas em IA -->
+ <div class="bg-background p-7 flex flex-col gap-4 hover:bg-surface transition-colors">
+ <div class="flex items-start justify-between">
+ <div class="w-11 h-11 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center">
+ <i data-lucide="brain-circuit" class="w-5 h-5 text-accent" stroke-width="1.75"></i>
+ </div>
+ <span class="font-mono text-[10px] text-muted uppercase tracking-widest">03 · IA Aplicada</span>
+ </div>
+ <div>
+ <h3 class="font-sans text-[19px] text-foreground mb-1.5" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">Especialistas em IA</h3>
+ <p class="text-[13px] text-muted leading-relaxed">
+ Não vendemos chatbot genérico. Treinamos a IA com SEUS protocolos clínicos, sua tabela de procedimentos, seus convênios. Cada agente é construído sob medida.
+ </p>
+ </div>
+ <div class="mt-2 space-y-2 pt-4 border-t border-border">
+ <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>IA por especialidade clínica</span></div>
+ <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Triagem e sumarização clínica</span></div>
+ <div class="flex items-center gap-2 text-[12px] text-muted"><i data-lucide="check" class="w-3.5 h-3.5 text-accent shrink-0" stroke-width="2.25"></i><span>Treinamento contínuo</span></div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Proof: the IA specialists' deliverable, configured agents in production -->
+ <div class="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+ <div class="lg:col-span-5">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-accent">O time entregando</span>
+ <h3 class="font-sans font-semibold text-xl md:text-2xl mt-3 mb-3 tracking-tight text-foreground">
+ Agentes treinados, integrados, operando.
+ </h3>
+ <p class="text-[14px] text-muted leading-relaxed">
+ Cada agente é configurado pelos nossos especialistas com o protocolo da sua especialidade. Não é prompt genérico. É IA que conhece sua tabela, seus convênios, suas regras de triagem. Vendedor, atendente, suporte: um agente para cada papel.
+ </p>
+ </div>
+ <div class="lg:col-span-7">
+ <div class="rounded-xl border border-border bg-surface overflow-hidden shadow-card">
+ <img src="assets/screens/Agentes_Inteligentes.png" alt="Painel de agentes inteligentes, IA configurada por especialidade e papel" class="w-full h-auto block" loading="lazy" />
+ </div>
+ </div>
+ </div>
+
+ <!-- Bottom band: cadence + CTA -->
+ <div class="mt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pt-8 border-t border-border relative z-10">
+ <div class="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[11px] text-muted uppercase tracking-widest">
+ <span class="flex items-center gap-1.5">
+ <span class="w-1 h-1 rounded-full bg-accent"></span>
+ Onboarding em 48h
+ </span>
+ <span class="text-border">·</span>
+ <span>Gestor dedicado</span>
+ <span class="text-border">·</span>
+ <span>Desenvolvimento</span>
+ <span class="text-border">·</span>
+ <span>IA personalizada</span>
+ <span class="text-border">·</span>
+ <span>Suporte humano</span>
+ </div>
+ <a href="#final-cta" class="inline-flex items-center gap-2 px-5 h-11 rounded-lg border border-accent/40 bg-accent/10 hover:bg-accent/15 hover:border-accent/60 text-accent text-[13px] font-medium transition-colors">
+ <i data-lucide="calendar" class="w-4 h-4" stroke-width="1.75"></i>
+ Marcar diagnóstico
+ </a>
+ </div>
+
+ </section>
+
+ <!-- SECTION 10: PROOF BLOC, fused ROI dashboards + testimonial -->
+ <section class="border-b border-border bg-surface relative overflow-hidden">
+ <div class="max-w-[1400px] mx-auto px-6 py-24 md:py-28">
+
+ <!-- Section header -->
+ <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
+ <div class="lg:col-span-7">
+ <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-background text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
+ <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
+ Resultado, em números e em palavras
+ </span>
+ <h2 class="text-4xl md:text-5xl lg:text-[64px] text-foreground leading-[0.96]">
+ Rastreie cada centavo,<br/>
+ do anúncio à consulta.
+ </h2>
+ </div>
+ <div class="lg:col-span-5">
+ <p class="text-muted text-[17px] leading-[1.6]">
+ Não acreditamos em prova social maquiada. Mostramos o painel real e o que um diretor médico, que opera 3 unidades, falou depois de 90 dias.
+ </p>
+ </div>
+ </div>
+
+ <!-- Grid: dashboards (left, 7) + testimonial (right, 5) -->
+ <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+
+ <!-- Left · stacked real dashboards -->
+ <div class="lg:col-span-7 flex flex-col gap-5">
+ <div class="relative rounded-2xl border border-border bg-background overflow-hidden shadow-card">
+ <img src="assets/screens/Grafico_funil_conversao.png" alt="Funil de conversão real do Aios, do anúncio à consulta" class="w-full h-auto block" loading="lazy" />
+ </div>
+ <div class="relative rounded-2xl border border-border bg-background overflow-hidden shadow-card">
+ <img src="assets/screens/Grafico_Numeros.png" alt="Indicadores executivos · ROI por campanha, ticket médio, conversão" class="w-full h-auto block" loading="lazy" />
+ </div>
+ <div class="grid grid-cols-2 sm:grid-cols-4 border border-border rounded-xl bg-background overflow-hidden">
+ <div class="p-4 border-r border-border">
+ <div class="font-mono text-[9px] uppercase tracking-widest text-muted mb-1">Atribuição</div>
+ <div class="font-display text-foreground" style="font-size:20px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing:-0.03em;">Meta · Google</div>
+ </div>
+ <div class="p-4 border-r border-border">
+ <div class="font-mono text-[9px] uppercase tracking-widest text-muted mb-1">CAC</div>
+ <div class="font-display text-foreground" style="font-size:20px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing:-0.03em;">tempo real</div>
+ </div>
+ <div class="p-4 border-r border-border border-t sm:border-t-0">
+ <div class="font-mono text-[9px] uppercase tracking-widest text-muted mb-1">Funil</div>
+ <div class="font-display text-foreground" style="font-size:20px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing:-0.03em;">completo</div>
+ </div>
+ <div class="p-4 border-t sm:border-t-0">
+ <div class="font-mono text-[9px] uppercase tracking-widest text-muted mb-1">Equipe</div>
+ <div class="font-display text-foreground" style="font-size:20px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing:-0.03em;">IA vs humano</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Right · testimonial as a tall card, integrated -->
+ <div class="lg:col-span-5 flex">
+ <div class="rounded-2xl bg-foreground text-background p-8 md:p-10 flex flex-col w-full relative overflow-hidden">
+ <!-- decorative quote mark -->
+ <div class="absolute -top-4 -right-4 text-[180px] leading-none text-background/10 select-none pointer-events-none" style="font-family: 'Bricolage Grotesque'; font-weight: 800;">"</div>
+ <i data-lucide="quote" class="w-7 h-7 text-accent mb-6 relative z-10"></i>
+ <p class="text-xl md:text-2xl leading-[1.3] mb-8 relative z-10 text-balance" style="font-family: 'Bricolage Grotesque'; font-weight: 600; font-variation-settings: 'wdth' 96, 'wght' 600; letter-spacing: -0.025em;">
+ Antes do Aios, torrávamos R$ 15 mil em Ads por mês, as leads entravam e a recepção demorava 4h pra responder. <span class="text-accent">O paciente já tinha agendado no concorrente.</span> Hoje, no segundo que o cara clica no anúncio, o robô atende e qualifica. Zeramos o gargalo.
+ </p>
+ <div class="mt-auto relative z-10">
+ <!-- separator -->
+ <div class="h-px bg-background/15 mb-5"></div>
+ <div class="flex items-center justify-between">
+ <div>
+ <div class="font-display text-background text-lg" style="font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.03em;">Dr. Leandro Marcondes</div>
+ <div class="font-mono text-[10px] uppercase tracking-widest text-background/55 mt-1">Diretor médico · 3 unidades · Estética avançada</div>
+ </div>
+ <div class="flex flex-col items-end">
+ <div class="font-display text-3xl text-accent" style="font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">+312%</div>
+ <div class="font-mono text-[9px] uppercase tracking-widest text-background/55 mt-0.5">consultas em 90 dias</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Mini testimonials grid, proof per specialty -->
+ <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border rounded-2xl overflow-hidden">
+ <div class="bg-background p-7 flex flex-col gap-4">
+ <div class="flex items-center justify-between">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-muted">Dermatologia · SP</span>
+ <span class="font-display text-accent" style="font-size: 28px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">−73%</span>
+ </div>
+ <p class="text-[14px] text-foreground leading-[1.5]">
+ "Em 60 dias o no-show caiu de 41% pra 11%. O lembrete da véspera fez o que minha secretária não conseguia."
+ </p>
+ <div class="mt-auto pt-4 border-t border-border">
+ <div class="font-display text-foreground" style="font-size: 14px; font-variation-settings: 'wdth' 100, 'wght' 700;">Dra. Roberta Andreozzi</div>
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mt-1">Dermatologista · 2 unidades</div>
+ </div>
+ </div>
+
+ <div class="bg-background p-7 flex flex-col gap-4">
+ <div class="flex items-center justify-between">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-muted">Odontologia · PR</span>
+ <span class="font-display text-aios-green" style="font-size: 28px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">+R$&nbsp;18k</span>
+ </div>
+ <p class="text-[14px] text-foreground leading-[1.5]">
+ "A IA recuperou 24 pacientes da carteira inativa em um trimestre. Receita que tava parada e ninguém olhava."
+ </p>
+ <div class="mt-auto pt-4 border-t border-border">
+ <div class="font-display text-foreground" style="font-size: 14px; font-variation-settings: 'wdth' 100, 'wght' 700;">Dr. Henrique Maciel</div>
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mt-1">Cirurgião-dentista · Curitiba</div>
+ </div>
+ </div>
+
+ <div class="bg-background p-7 flex flex-col gap-4">
+ <div class="flex items-center justify-between">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-muted">Estética · RJ</span>
+ <span class="font-display text-accent" style="font-size: 28px; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">3.4×</span>
+ </div>
+ <p class="text-[14px] text-foreground leading-[1.5]">
+ "Os disparos de aniversário pagaram o Aios sozinhos no primeiro mês. Triplicaram os agendamentos de toxina."
+ </p>
+ <div class="mt-auto pt-4 border-t border-border">
+ <div class="font-display text-foreground" style="font-size: 14px; font-variation-settings: 'wdth' 100, 'wght' 700;">Dra. Camila Vasconcelos</div>
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mt-1">Médica estética · Ipanema</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Bottom trust band -->
+ <div class="mt-12 pt-8 border-t border-border flex flex-wrap items-center gap-x-8 gap-y-3 font-mono text-[10px] uppercase tracking-widest text-muted">
+ <span>Clínicas usando · +340</span>
+ <span class="text-border">·</span>
+ <span>Especialidades atendidas · 11</span>
+ <span class="text-border">·</span>
+ <span>Atendimentos no WhatsApp · +2,8M / mês</span>
+ <span class="text-border">·</span>
+ <span>Uptime API · 99.97%</span>
+ </div>
+ </div>
+ </section>
+
+ <!-- SECTION 10.5: ANTES / DEPOIS + ROI math -->
+ <section class="border-b border-border relative overflow-hidden">
+ <div class="max-w-[1400px] mx-auto px-6 py-24 md:py-28">
+
+ <!-- Header asymmetric -->
+ <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
+ <div class="lg:col-span-7">
+ <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-surface text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
+ <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
+ A matemática que ninguém faz
+ </span>
+ <h2 class="text-4xl md:text-5xl lg:text-[60px] text-foreground leading-[0.96]">
+ Sua clínica hoje vs.<br/>
+ sua clínica <span class="text-accent">no Aios.</span>
+ </h2>
+ </div>
+ <div class="lg:col-span-5">
+ <p class="text-muted text-[17px] leading-[1.6]">
+ Não é sobre tecnologia. É sobre quanto você está deixando na mesa hoje. Faz as contas: secretária, anúncios sem rastreio, leads perdidos, no-show, retornos que não acontecem.
+ </p>
+ </div>
+ </div>
+
+ <!-- Before / After comparison -->
+ <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border border border-border rounded-2xl overflow-hidden">
+
+ <!-- BEFORE column -->
+ <div class="bg-surface p-8 md:p-10 relative">
+ <div class="flex items-center gap-3 mb-7">
+ <span class="w-2 h-2 rounded-full bg-foreground/30"></span>
+ <span class="font-mono text-[10px] uppercase tracking-widest text-muted">Sua clínica hoje · sem Aios</span>
+ </div>
+ <ul class="space-y-5">
+ <li class="flex items-start gap-4 pb-5 border-b border-border">
+ <i data-lucide="x" class="w-4 h-4 text-foreground/40 shrink-0 mt-1" stroke-width="2"></i>
+ <div class="flex-1">
+ <div class="text-[15px] text-foreground font-medium mb-1">Recepção atende até as 18h</div>
+ <div class="text-[13px] text-muted">14% das mensagens de fim de semana são respondidas.</div>
+ </div>
+ </li>
+ <li class="flex items-start gap-4 pb-5 border-b border-border">
+ <i data-lucide="x" class="w-4 h-4 text-foreground/40 shrink-0 mt-1" stroke-width="2"></i>
+ <div class="flex-1">
+ <div class="text-[15px] text-foreground font-medium mb-1">Agenda com 32% de buracos</div>
+ <div class="text-[13px] text-muted">No-show entre 28-45% nas especialidades particulares.</div>
+ </div>
+ </li>
+ <li class="flex items-start gap-4 pb-5 border-b border-border">
+ <i data-lucide="x" class="w-4 h-4 text-foreground/40 shrink-0 mt-1" stroke-width="2"></i>
+ <div class="flex-1">
+ <div class="text-[15px] text-foreground font-medium mb-1">R$ 15 mil em Ads sem rastreio</div>
+ <div class="text-[13px] text-muted">Você sabe qual campanha trouxe consulta. Mas não sabe qual fechou.</div>
+ </div>
+ </li>
+ <li class="flex items-start gap-4 pb-5 border-b border-border">
+ <i data-lucide="x" class="w-4 h-4 text-foreground/40 shrink-0 mt-1" stroke-width="2"></i>
+ <div class="flex-1">
+ <div class="text-[15px] text-foreground font-medium mb-1">Carteira inativa esquecida</div>
+ <div class="text-[13px] text-muted">Pacientes que sumiram há 6+ meses ficam num CRM que ninguém abre.</div>
+ </div>
+ </li>
+ <li class="flex items-start gap-4">
+ <i data-lucide="x" class="w-4 h-4 text-foreground/40 shrink-0 mt-1" stroke-width="2"></i>
+ <div class="flex-1">
+ <div class="text-[15px] text-foreground font-medium mb-1">Secretária no limite</div>
+ <div class="text-[13px] text-muted">Atende, agenda, lembra, fatura, lida com convênio, e WhatsApp acumula.</div>
+ </div>
+ </li>
+ </ul>
+ <!-- Subtotal cost -->
+ <div class="mt-8 pt-6 border-t border-border-strong flex items-baseline justify-between">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-loss-red">Custo de oportunidade · mês</span>
+ <span class="font-display text-loss-red" style="font-size: 36px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">−R$&nbsp;32.450</span>
+ </div>
+ </div>
+
+ <!-- AFTER column, foreground inverted for emphasis -->
+ <div class="bg-foreground text-background p-8 md:p-10 relative">
+ <div class="flex items-center gap-3 mb-7">
+ <span class="w-2 h-2 rounded-full bg-accent animate-pulse-soft"></span>
+ <span class="font-mono text-[10px] uppercase tracking-widest text-background/60">Com Aios · operando</span>
+ </div>
+ <ul class="space-y-5">
+ <li class="flex items-start gap-4 pb-5 border-b border-background/15">
+ <i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-1" stroke-width="2.5"></i>
+ <div class="flex-1">
+ <div class="text-[15px] text-background font-medium mb-1">IA responde em &lt; 1 segundo, 24/7</div>
+ <div class="text-[13px] text-background/65">Sábado, domingo, madrugada, feriado. Sempre.</div>
+ </div>
+ </li>
+ <li class="flex items-start gap-4 pb-5 border-b border-background/15">
+ <i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-1" stroke-width="2.5"></i>
+ <div class="flex-1">
+ <div class="text-[15px] text-background font-medium mb-1">Agenda 89% ocupada</div>
+ <div class="text-[13px] text-background/65">Lembretes anti no-show D-1 + D-4h reduzem faltas em 68%.</div>
+ </div>
+ </li>
+ <li class="flex items-start gap-4 pb-5 border-b border-background/15">
+ <i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-1" stroke-width="2.5"></i>
+ <div class="flex-1">
+ <div class="text-[15px] text-background font-medium mb-1">ROI por campanha em tempo real</div>
+ <div class="text-[13px] text-background/65">Sabe exatamente qual anúncio do Instagram fechou tratamento de R$ 8 mil.</div>
+ </div>
+ </li>
+ <li class="flex items-start gap-4 pb-5 border-b border-background/15">
+ <i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-1" stroke-width="2.5"></i>
+ <div class="flex-1">
+ <div class="text-[15px] text-background font-medium mb-1">Carteira inativa virando consulta</div>
+ <div class="text-[13px] text-background/65">Disparos de recall trazem 18-24 pacientes/trimestre pra clínica média.</div>
+ </div>
+ </li>
+ <li class="flex items-start gap-4">
+ <i data-lucide="check" class="w-4 h-4 text-accent shrink-0 mt-1" stroke-width="2.5"></i>
+ <div class="flex-1">
+ <div class="text-[15px] text-background font-medium mb-1">Secretária focada em atender presencial</div>
+ <div class="text-[13px] text-background/65">A IA filtra os curiosos. Sua equipe só vê paciente qualificado.</div>
+ </div>
+ </li>
+ </ul>
+ <!-- Subtotal recovered -->
+ <div class="mt-8 pt-6 border-t border-background/20 flex items-baseline justify-between">
+ <span class="font-mono text-[10px] uppercase tracking-widest text-background/60">Receita devolvida · mês</span>
+ <span class="font-display text-accent" style="font-size: 36px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.05em;">+R$&nbsp;47.900</span>
+ </div>
+ </div>
+ </div>
+
+ <!-- ROI math strip -->
+ <div class="mt-10 grid grid-cols-1 md:grid-cols-4 border border-border rounded-2xl overflow-hidden bg-surface">
+ <div class="p-6 md:border-r border-border">
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-3">Você investe</div>
+ <div class="font-display text-foreground" style="font-size: 32px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">R$&nbsp;2.490</div>
+ <div class="text-[12px] text-muted mt-2">Plano Clínica Pro · mensal</div>
+ </div>
+ <div class="p-6 md:border-r border-border border-t md:border-t-0">
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-3">Você economiza</div>
+ <div class="font-display text-foreground" style="font-size: 32px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">R$&nbsp;3.200</div>
+ <div class="text-[12px] text-muted mt-2">Menos 1 secretária noturna + Z-API</div>
+ </div>
+ <div class="p-6 md:border-r border-border border-t md:border-t-0">
+ <div class="font-mono text-[10px] uppercase tracking-widest text-muted mb-3">Você devolve</div>
+ <div class="font-display text-foreground" style="font-size: 32px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">R$&nbsp;12.800</div>
+ <div class="text-[12px] text-muted mt-2">+8 consultas/semana × ticket médio</div>
+ </div>
+ <div class="p-6 bg-accent text-white border-t md:border-t-0">
+ <div class="font-mono text-[10px] uppercase tracking-widest text-white/75 mb-3">ROI mensal</div>
+ <div class="font-display text-white" style="font-size: 32px; line-height: 1; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.04em;">5.1×</div>
+ <div class="text-[12px] text-white/80 mt-2">Conservador · clínica média</div>
+ </div>
+ </div>
+
+ <p class="mt-6 text-center font-mono text-[11px] text-muted uppercase tracking-widest">
+ Números baseados em médias reais de clínicas operando há 6+ meses · calculado por especialidade no diagnóstico gratuito
+ </p>
+ </div>
+ </section>
+
+ <!-- SECTION 10.6: FAQ, objeções antes do CTA final -->
+ <section class="border-b border-border bg-surface relative overflow-hidden">
+ <div class="max-w-[1400px] mx-auto px-6 py-24 md:py-28">
+
+ <!-- Header -->
+ <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
+ <div class="lg:col-span-7">
+ <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-border bg-background text-[10px] font-mono text-muted uppercase tracking-widest mb-6">
+ <span class="w-1 h-1 rounded-full bg-accent animate-pulse-soft"></span>
+ O que você tá pensando agora
+ </span>
+ <h2 class="text-4xl md:text-5xl lg:text-[60px] text-foreground leading-[0.96]">
+ Antes que você<br/>
+ pergunte.
+ </h2>
+ </div>
+ <div class="lg:col-span-5">
+ <p class="text-muted text-[17px] leading-[1.6]">
+ Toda clínica passa pelas mesmas dúvidas antes de assinar. A gente já ouviu, e responde direto, sem rodeio comercial.
+ </p>
+ </div>
+ </div>
+
+ <!-- FAQ grid · 2 columns at lg -->
+ <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border border border-border rounded-2xl overflow-hidden">
+
+ <div class="bg-background p-7 md:p-8">
+ <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
+ "Meu paciente vai sentir que é robô?"
+ </h3>
+ <p class="text-[14px] text-muted leading-[1.55]">
+ A IA é treinada com a linguagem da sua clínica e se apresenta como secretária virtual da [Nome da Clínica]. Nos testes às cegas, 73% dos pacientes não percebem que não é humano. E quando a IA detecta dúvida fora do escopo, ela passa pra humano automaticamente, sem fazer o paciente repetir nada.
+ </p>
+ </div>
+
+ <div class="bg-background p-7 md:p-8">
+ <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
+ "E quando a IA não souber responder?"
+ </h3>
+ <p class="text-[14px] text-muted leading-[1.55]">
+ Handoff inteligente. A IA detecta exceções clínicas (sintomas graves, perguntas técnicas fora da especialidade, paciente irritado) e transfere pra sua secretária ou médico de plantão imediatamente, com o contexto completo da conversa já resumido.
+ </p>
+ </div>
+
+ <div class="bg-background p-7 md:p-8">
+ <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
+ "LGPD? Dados clínicos sensíveis?"
+ </h3>
+ <p class="text-[14px] text-muted leading-[1.55]">
+ Servidores no Brasil, criptografia em trânsito e em repouso, DPO designado, contratos com cláusula de operador de dados, logs de auditoria por usuário. Já passamos por due diligence de hospitais e operadoras, podemos compartilhar o termo de adequação na primeira call.
+ </p>
+ </div>
+
+ <div class="bg-background p-7 md:p-8">
+ <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
+ "Já uso Feegow / iClinic / Doctoralia. Vai brigar?"
+ </h3>
+ <p class="text-[14px] text-muted leading-[1.55]">
+ Não, integra. Tier 1 (Feegow, iClinic, Clínica nas Nuvens, Consultório Live, Clinicorp, Ninsaúde) é nativo via API aberta. Tier 2 (Memed, Doctoralia, ByDoctor, Shosp) é via parceria homologada. Se o seu sistema não tá nessa lista, nosso time de Desenvolvimento constrói a ponte em 2 a 4 semanas.
+ </p>
+ </div>
+
+ <div class="bg-background p-7 md:p-8">
+ <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
+ "Quanto tempo até funcionar de verdade?"
+ </h3>
+ <p class="text-[14px] text-muted leading-[1.55]">
+ 48h pro onboarding técnico (conexão WhatsApp, importação da base, treinamento inicial da IA). 7 a 14 dias pra atingir performance plena, com seu Gestor de CRM dedicado calibrando o agente nas duas primeiras semanas. Resultado mensurável já no primeiro fechamento mensal.
+ </p>
+ </div>
+
+ <div class="bg-background p-7 md:p-8">
+ <h3 class="text-[18px] text-foreground mb-3" style="font-family: 'Bricolage Grotesque'; font-weight: 800; font-variation-settings: 'wdth' 100, 'wght' 800; letter-spacing: -0.025em;">
+ "E se eu não gostar?"
+ </h3>
+ <p class="text-[14px] text-muted leading-[1.55]">
+ 30 dias de teste com risco zero. Não gostou, não converteu, achou que não era pra sua clínica? Devolvemos integral. Sem fidelidade, sem multa, sem letra miúda. A gente prefere clínica feliz que cliente preso.
+ </p>
+ </div>
+ </div>
+
+ <!-- Bottom row · still have doubts -->
+ <div class="mt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 pt-8 border-t border-border">
+ <p class="text-[15px] text-muted">
+ Ainda tem dúvida? Cole no WhatsApp da nossa secretária IA, ela mesma responde.
+ </p>
+ <a href="#" class="inline-flex items-center gap-2 px-5 h-11 rounded-lg bg-foreground text-background hover:bg-foreground/90 text-[13px] font-medium transition-colors">
+ <i data-lucide="message-circle" class="w-4 h-4" stroke-width="1.75"></i>
+ Perguntar pra IA do Aios
+ </a>
+ </div>
+ </div>
+ </section>
+
+ <!-- SECTION 12: FINAL CTA -->
+ <section id="final-cta" class="max-w-7xl mx-auto px-6 py-32 text-center relative">
+ <div class="ambient-glow-bottom"></div>
+ <div class="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
+ <h2 class="font-sans font-semibold text-3xl md:text-4xl tracking-tight leading-[1.1] mb-4">
+ Agenda cheia,<br>
+ <span class="text-accent">todos os meses.</span>
+ </h2>
+ <p class="text-xl text-muted font-medium mb-10">Cada lead ignorado é uma cadeira vazia amanhã.</p>
+
+ <p class="text-sm text-muted/70 max-w-md mx-auto mb-8 text-balance">
+ Marque um diagnóstico gratuito. Em 30 minutos, mostramos o que está vazando da sua agenda e quanto disso o Aios fecha.
+ </p>
+
+ <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-8">
+ <a href="https://wa.me/" class="w-full sm:w-auto h-11 px-8 bg-accent text-background font-medium rounded-lg hover:bg-accent-hover btn-press transition-colors text-base flex items-center justify-center">
+ Agendar diagnóstico
+ </a>
+ <a href="https://wa.me/" class="w-full sm:w-auto h-11 px-8 bg-transparent border border-border text-foreground font-medium rounded-lg hover:border-accent hover:bg-surface btn-press transition-colors text-base flex items-center justify-center">
+ Falar no WhatsApp
+ </a>
+ </div>
+
+ <div class="font-mono text-[11px] uppercase tracking-wider text-muted flex flex-wrap justify-center gap-2 md:gap-4 divider-x-dots">
+ <span class="flex items-center gap-1.5"><i data-lucide="zap" class="w-3.5 h-3.5"></i> IA treinada em 48h</span>
+ <span class="hidden md:inline">·</span>
+ <span class="flex items-center gap-1.5"><i data-lucide="credit-card" class="w-3.5 h-3.5"></i> Sem cartão de crédito</span>
+ <span class="hidden md:inline">·</span>
+ <span class="flex items-center gap-1.5"><i data-lucide="unlock" class="w-3.5 h-3.5"></i> Cancele quando quiser</span>
+ </div>
+ </div>
+ </section>
+
+ </main>
+
+ <!-- FOOTER -->
+ <footer class="border-t border-border bg-surface pb-12 pt-16 mt-20 relative z-10">
+ <div class="max-w-7xl mx-auto px-6">
+ <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+ <!-- Brand Col -->
+ <div class="md:col-span-1">
+ <div class="flex items-center gap-2.5 mb-4">
+ <img src="aios-logo.png" alt="AIOS" class="w-8 h-8 object-contain" />
+ <span class="font-sans font-semibold tracking-tight text-lg">AIOS</span>
+ </div>
+ <p class="text-sm text-muted font-mono max-w-xs">Inteligência Artificial & CRM Enterprise injetados no ecossistema de clínicas particulares no Brasil.</p>
+ </div>
+ 
+ <!-- Links -->
+ <div>
+ <h3 class="font-mono text-xs uppercase tracking-widest text-foreground font-medium mb-4">Produto</h3>
+ <ul class="space-y-3 text-sm text-muted">
+ <li><a href="#" class="hover:text-accent transition-colors">Agente IA</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Kanban Automático</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Gestor de CRM</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Integrações (API)</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Preços</a></li>
+ </ul>
+ </div>
+
+ <div>
+ <h3 class="font-mono text-xs uppercase tracking-widest text-foreground font-medium mb-4">Especialidades</h3>
+ <ul class="space-y-3 text-sm text-muted font-mono text-[12px]">
+ <li><a href="#" class="hover:text-accent transition-colors">Dermatologia</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Odontologia</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Oftalmologia</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Cardiologia</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Pediatria</a></li>
+ </ul>
+ </div>
+
+ <div>
+ <h3 class="font-mono text-xs uppercase tracking-widest text-foreground font-medium mb-4">Legal</h3>
+ <ul class="space-y-3 text-sm text-muted">
+ <li><a href="#" class="hover:text-accent transition-colors">Termos de Serviço</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Privacidade (LGPD)</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Documentação API</a></li>
+ <li><a href="#" class="hover:text-accent transition-colors">Status do Sistema</a></li>
+ </ul>
+ </div>
+ </div>
+ 
+ <div class="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[11px] text-muted uppercase tracking-wider">
+ <p>&copy; 2026 AIOS SOFTWARE BRASIL. Todos os direitos reservados.</p>
+ <div class="flex items-center gap-4">
+ <a href="#" class="hover:text-foreground">Twitter</a>
+ <a href="#" class="hover:text-foreground">LinkedIn</a>
+ </div>
+ </div>
+ </div>
+ </footer>
+
+ <!-- Initialize Icons -->
+ <script>
+ lucide.createIcons({
+ attrs: {
+ strokeWidth: 1.75
+ }
+ });
+ </script>
 </body>
 </html>
